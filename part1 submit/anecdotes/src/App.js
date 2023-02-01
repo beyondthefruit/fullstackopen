@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const App = () => {
   const anecdotes = [
@@ -11,10 +11,51 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.',
   ];
-
+  const voteMe = new Array(anecdotes.length).fill(0);
   const [selected, setSelected] = useState(0);
+  const [anecdotesPoint, setAnecdotesPoint] = useState(voteMe);
+  const [popularA, setPopularA] = useState([]);
+  const [hasVote, setHasVote] = useState(false);
 
-  return <div>{anecdotes[selected]}</div>;
+  console.log(anecdotesPoint);
+  const updateAnecdotes = () => {
+    let anecdotesNumber = Math.floor(Math.random() * anecdotes.length);
+
+    setSelected(anecdotesNumber);
+  };
+  let points;
+  const vote = () => {
+    points = [...anecdotesPoint];
+    points[selected] += 1;
+    setAnecdotesPoint(points);
+  };
+  const winVote = () => {
+    const winnerB = [...points];
+    const winner = winnerB.indexOf(Math.max(...winnerB));
+    console.log(winner);
+    setPopularA(winner);
+    setHasVote(true);
+  };
+  return (
+    <div>
+      <div>{anecdotes[selected]}</div>
+      <button onClick={updateAnecdotes}>next anecdotes</button>
+      <button
+        onClick={() => {
+          vote();
+          winVote();
+        }}
+      >
+        vote
+      </button>
+      <div>Anecdote with most votes</div>
+      {hasVote ? (
+        <div>{anecdotes[popularA]}</div>
+      ) : (
+        <p>vote for your favorite quote</p>
+      )}
+    </div>
+  );
 };
 
 export default App;
