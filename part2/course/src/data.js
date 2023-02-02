@@ -1,4 +1,4 @@
-const notes = [
+const notesData = [
   {
     id: 1,
     content: 'HTML is easy',
@@ -15,4 +15,4 @@ const notes = [
     important: true,
   },
 ];
-export default notes;
+export default notesData;

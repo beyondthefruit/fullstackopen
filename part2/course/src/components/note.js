@@ -1,8 +1,8 @@
-const Note = ({ notes }) => {
+const Note = ({ notes, notesToShow }) => {
   return (
     <>
       <ul>
-        {notes.map((note) => {
+        {notesToShow.map((note) => {
           console.log(notes);
           console.log(note);
           const { id, content } = note;
