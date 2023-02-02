@@ -1,16 +1,10 @@
-import { idText } from 'typescript';
-
-const App = (props) => {
-  const { notes } = props;
-
+import Note from './components/note';
+import notes from './data';
+const App = () => {
   return (
     <div>
       <h1>Notes</h1>
-      <ul>
-        {notes.map((note) => (
-          <li key={note.id}>{note.content}</li>
-        ))}
-      </ul>
+      <Note notes={notes} />
     </div>
   );
 };
