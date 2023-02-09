@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Details from './components/details';
+import Filter from './components/filter';
+import PersonForm from './components/form';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -11,17 +13,14 @@ const App = () => {
   const [newName, setNewName] = useState('name');
   const [newPhone, setNewPhone] = useState('phone');
   const [filteredList, setFilteredList] = useState('');
-  const [filt, setFilt] = useState(true);
-  // const [double, setDouble] = useState(false);
-  // console.log(double);
-  // const [phoneBook, setPhoneBook] = useState(persons);
+  // const [filt, setFilt] = useState(true);
 
-  let hi = persons.map((person) => person.name);
+  let checkName = persons.map((person) => person.name);
   let doubleName = false;
 
   // check if a name is already on the list
   const checkDoubleName = () => {
-    if (hi.includes(newName)) {
+    if (checkName.includes(newName)) {
       doubleName = true;
     } else {
       doubleName = false;
@@ -43,7 +42,9 @@ const App = () => {
     if (doubleName === true) {
       alert(`${newName} is already added to phonebook`);
       setNewName('');
+      //if doubleName is true we display alert and empty the form field
     } else {
+      //else we proceed with concat the persons array
       setPersons(persons.concat(adObject));
       setNewName('');
       setNewPhone('');
@@ -71,29 +72,22 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        <form onSubmit={filterPerson}>
-          filter shown with:{' '}
-          <input value={filteredList} onChange={handleFilter} />
-        </form>
-      </div>
-      <div>
-        <form onSubmit={addPhone}>
-          name: <input value={newName} onChange={handleChangeName} />
-          <div>
-            number: <input value={newPhone} onChange={handleChangePhone} />
-          </div>
-          <button type='submit'>add me</button>
-        </form>
-      </div>
+      <Filter
+        filterPerson={filterPerson}
+        filteredList={filteredList}
+        handleFilter={handleFilter}
+      />
+
       <Details persons={persons} phoneList={phoneList} />
       <div>
-        {/* <form onSubmit={addPhone}>
-            <input value={newName} onChange={handleChange} />
-          </form>
-          <button type='submit'>add me</button> */}
+        <PersonForm
+          addPhone={addPhone}
+          newName={newName}
+          handleChangeName={handleChangeName}
+          newPhone={newPhone}
+          handleChangePhone={handleChangePhone}
+        />
       </div>
-      {/* </form> */}
       <h2>Numbers</h2>
       <div> {newName}</div>
     </div>
