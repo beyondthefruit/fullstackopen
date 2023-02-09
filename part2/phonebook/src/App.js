@@ -10,6 +10,8 @@ const App = () => {
   ]);
   const [newName, setNewName] = useState('name');
   const [newPhone, setNewPhone] = useState('phone');
+  const [filteredList, setFilteredList] = useState('');
+  const [filt, setFilt] = useState(true);
   // const [double, setDouble] = useState(false);
   // console.log(double);
   // const [phoneBook, setPhoneBook] = useState(persons);
@@ -53,11 +55,28 @@ const App = () => {
   const handleChangePhone = (e) => {
     setNewPhone(e.target.value);
   };
+  const filterPerson = (e) => {
+    e.preventDefault();
+  };
+
+  const handleFilter = (e) => {
+    setFilteredList(e.target.value);
+  };
+
+  const phoneList = persons.filter((person) => {
+    return person.name.toLowerCase().includes(filteredList.toLowerCase());
+    // better method is to use localeCompare()
+  });
 
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <div>
+        <form onSubmit={filterPerson}>
+          filter shown with:{' '}
+          <input value={filteredList} onChange={handleFilter} />
+        </form>
+      </div>
       <div>
         <form onSubmit={addPhone}>
           name: <input value={newName} onChange={handleChangeName} />
@@ -67,7 +86,7 @@ const App = () => {
           <button type='submit'>add me</button>
         </form>
       </div>
-      <Details persons={persons} />
+      <Details persons={persons} phoneList={phoneList} />
       <div>
         {/* <form onSubmit={addPhone}>
             <input value={newName} onChange={handleChange} />

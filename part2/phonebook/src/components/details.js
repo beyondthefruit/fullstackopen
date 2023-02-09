@@ -1,7 +1,7 @@
-const Details = ({ persons }) => {
+const Details = ({ persons, phoneList }) => {
   return (
     <>
-      {persons.map((person) => {
+      {phoneList.map((person) => {
         const { name, number, id } = person;
         return (
           <p key={id}>
