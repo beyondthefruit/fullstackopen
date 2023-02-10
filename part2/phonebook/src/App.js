@@ -1,19 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Details from './components/details';
 import Filter from './components/filter';
 import PersonForm from './components/form';
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '0401-235-426', id: 1 },
-    { name: 'Ada Lovelace', number: '3944-533-523', id: 2 },
-    { name: 'Dan Abramov', number: '1243-223-435', id: 3 },
-    { name: 'Mary Poppendieck', number: '3923-642-122', id: 4 },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('name');
   const [newPhone, setNewPhone] = useState('phone');
   const [filteredList, setFilteredList] = useState('');
   // const [filt, setFilt] = useState(true);
+
+  const hook = () => {
+    console.log('effect');
+    axios.get('http://localhost:3003/persons').then((response) => {
+      console.log('promise fulfilled');
+      setPersons(response.data);
+    });
+  };
+
+  useEffect(hook, []);
 
   let checkName = persons.map((person) => person.name);
   let doubleName = false;
