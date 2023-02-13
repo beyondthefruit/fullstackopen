@@ -3,6 +3,7 @@ import axios from 'axios';
 import Details from './components/details';
 import Filter from './components/filter';
 import PersonForm from './components/form';
+import phoneService from './services/phones';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,12 +13,13 @@ const App = () => {
   // const [filt, setFilt] = useState(true);
 
   const hook = () => {
-    console.log('effect');
-    axios.get('http://localhost:3003/persons').then((response) => {
-      console.log('promise fulfilled');
-      setPersons(response.data);
-    });
-  };
+  //   console.log('effect');
+  //   axios.get('http://localhost:3003/persons').then((response) => {
+  //     console.log('promise fulfilled');
+  //     setPersons(response.data);
+  //   });
+  // };
+  phoneService.getAll().then(response=>)
 
   useEffect(hook, []);
 
@@ -51,9 +53,11 @@ const App = () => {
       //if doubleName is true we display alert and empty the form field
     } else {
       //else we proceed with concat the persons array
-      setPersons(persons.concat(adObject));
-      setNewName('');
-      setNewPhone('');
+      axios.post('http://localhost:3003/persons', adObject).then((response) => {
+        setPersons(persons.concat(adObject));
+        setNewName('');
+        setNewPhone('');
+      });
     }
   };
   const handleChangeName = (e) => {
