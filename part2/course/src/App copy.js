@@ -1,9 +1,8 @@
-import Note from './components/note';
-import noteService from './services/notes';
-import notesData from './data';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import './index.css';
+// import Note from './components/note';
+// import noteService from './services/notes';
+// import notesData from './data';
+// import { useState, useEffect } from 'react';
+// import axios from 'axios';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -12,11 +11,24 @@ const App = () => {
   // console.log(newNote);
 
   useEffect(() => {
-    noteService.getAll().then((initialNotes) => {
-      setNotes(initialNotes);
+    console.log('effect');
+    axios.get('http://localhost:3001/notes').then((response) => {
+      console.log('promise fulfilled');
+      setNotes(response.data);
     });
   }, []);
   console.log('render', notes.length, 'notes');
+
+  // or
+  // const hook = () => {
+  //   console.log('effect');
+  //   axios.get('http://localhost:3001/notes').then((response) => {
+  //     console.log('promise fulfilled');
+  //     setNotes(response.data);
+  //   });
+  // };
+
+  // useEffect(hook, []);
 
   //form mgt
   const addNote = (event) => {
@@ -28,30 +40,31 @@ const App = () => {
       important: Math.random() < 0.5,
     };
     // send to server method
-    noteService.create(noteObject).then((returnedNote) => {
-      setNotes(notes.concat(returnedNote));
+    axios.post('http://localhost:3001/notes', noteObject).then((response) => {
+      console.log(response);
+      setNotes(notes.concat(response.data));
       setNewNote('');
     });
-  };
 
+    // first method
+    // setNotes(notes.concat(noteObject)); // method does not mutate the original notes array, but rather creates a new copy of the array with the new item added to the end
+    // setNewNote(''); // reset value of controlled input element
+  };
   const handleNoteChange = (event) => {
     // console.log(event.target.value);
     setNewNote(event.target.value);
   };
 
   const toggleImportanceOf = (id) => {
+    console.log(`importance of ${id} needs to be toggled`);
+    const url = `http://localhost:3001/notes/${id}`;
+    // uniaue url for each  notes
     const note = notes.find((n) => n.id === id);
     const changedNote = { ...note, important: !note.important };
 
-    noteService
-      .update(id, changedNote)
-      .then((returnedNote) => {
-        setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
-      })
-      .catch((error) => {
-        alert(`the note '${note.content}' was already deleted from server`);
-        setNotes(notes.filter((n) => n.id !== id));
-      });
+    axios.put(url, changedNote).then((response) => {
+      setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
+    });
   };
 
   //display notes

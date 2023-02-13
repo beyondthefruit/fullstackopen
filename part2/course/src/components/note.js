@@ -1,12 +1,18 @@
-const Note = ({ notes, notesToShow }) => {
+const Note = ({ notesToShow, toggleImportanceOf }) => {
+  // const label = (e) => e.important ? 'make not important' : 'make important';
   return (
     <>
       <ul>
         {notesToShow.map((note) => {
-          console.log(notes);
           console.log(note);
-          const { id, content } = note;
-          return <li key={id}>{content}</li>;
+          const { id, content, important } = note;
+          const label = important ? 'make not important' : 'make important';
+          return (
+            <li key={id}>
+              {content}
+              <button onClick={() => toggleImportanceOf(id)}>{label}</button>
+            </li>
+          );
         })}
       </ul>
     </>
