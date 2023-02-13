@@ -25,18 +25,6 @@ const App = () => {
 
   useEffect(hook, []);
 
-  let checkName = persons.map((person) => person.name);
-  let doubleName = false;
-
-  // check if a name is already on the list
-  const checkDoubleName = () => {
-    if (checkName.includes(newName)) {
-      doubleName = true;
-    } else {
-      doubleName = false;
-    }
-  };
-
   //form mgt
   const addPhone = (e) => {
     e.preventDefault(); // necessary to avoid reloading the page
@@ -48,19 +36,41 @@ const App = () => {
       id: persons.length + 1,
     };
 
-    checkDoubleName();
-    if (doubleName === true) {
-      alert(`${newName} is already added to phonebook`);
-      setNewName('');
-      //if doubleName is true we display alert and empty the form field
-    } else {
-      //else we proceed with concat the persons array
-      phoneService.create(adObject).then((returnedPhone) => {
-        setPersons(persons.concat(returnedPhone));
-        setNewName('');
-        setNewPhone('');
-      });
+    //we first look is newName already exist
+    //we window.confirm if user want to update this person
+    // if yes so we get is id
+    let checkName = persons.find((person) => person.name === newName);
+
+    console.log(checkName);
+    const windowUpdate = window.confirm(
+      `Are you sure you want to update ${newName}'phone number?`
+    );
+    if (windowUpdate) {
+      if (checkName) {
+        let checkNameId = checkName.id;
+        const user = persons.find((person) => person.id === checkNameId);
+        const changedPhoneNumber = { ...user, number: newPhone };
+        phoneService
+          .update(checkNameId, changedPhoneNumber)
+          .then((returnedPhone) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== checkNameId ? person : returnedPhone
+              )
+            );
+            setNewName('');
+          });
+      } else {
+        //else we proceed with concat the persons array
+        phoneService.create(adObject).then((returnedPhone) => {
+          setPersons(persons.concat(returnedPhone));
+          setNewName('');
+          setNewPhone('');
+        });
+      }
     }
+    setNewName('');
+    setNewPhone('');
   };
   const handleChangeName = (e) => {
     setNewName(e.target.value);
