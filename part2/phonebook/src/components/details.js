@@ -1,12 +1,13 @@
-const Details = ({ persons, phoneList }) => {
+const Details = ({ persons, phoneList, deletePhoneUser }) => {
   return (
     <>
       {phoneList.map((person) => {
         const { name, number, id } = person;
         return (
-          <p key={id}>
+          <div key={id}>
             {name} {number}
-          </p>
+            <button onClick={() => deletePhoneUser(id, name)}>delete</button>
+          </div>
         );
       })}
     </>

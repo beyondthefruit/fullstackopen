@@ -76,6 +76,20 @@ const App = () => {
     setFilteredList(e.target.value);
   };
 
+  const deletePhoneUser = (id, personName) => {
+    const user = persons.find((person) => person.id === id);
+    const windowDelete = window.confirm(
+      `Are you sure you want to delete ${personName}`
+    );
+    if (windowDelete) {
+      phoneService.deletePhone(id).then(() => {
+        const filterPerson = persons.filter((person) => person.id !== id);
+        //means we filter person with different id
+        setPersons(filterPerson);
+      });
+    }
+  };
+
   const phoneList = persons.filter((person) => {
     return person.name.toLowerCase().includes(filteredList.toLowerCase());
     // better method is to use localeCompare()
@@ -90,7 +104,11 @@ const App = () => {
         handleFilter={handleFilter}
       />
 
-      <Details persons={persons} phoneList={phoneList} />
+      <Details
+        persons={persons}
+        phoneList={phoneList}
+        deletePhoneUser={deletePhoneUser}
+      />
       <div>
         <PersonForm
           addPhone={addPhone}
