@@ -13,13 +13,15 @@ const App = () => {
   // const [filt, setFilt] = useState(true);
 
   const hook = () => {
-  //   console.log('effect');
-  //   axios.get('http://localhost:3003/persons').then((response) => {
-  //     console.log('promise fulfilled');
-  //     setPersons(response.data);
-  //   });
-  // };
-  phoneService.getAll().then(response=>)
+    //first method
+    // phoneService.getAll().then((response) => {
+    //   setPersons(response.data);
+    // });
+    //second method after returning the request inside the service
+    phoneService.getAll().then((initialPhone) => {
+      setPersons(initialPhone);
+    });
+  };
 
   useEffect(hook, []);
 
@@ -53,8 +55,8 @@ const App = () => {
       //if doubleName is true we display alert and empty the form field
     } else {
       //else we proceed with concat the persons array
-      axios.post('http://localhost:3003/persons', adObject).then((response) => {
-        setPersons(persons.concat(adObject));
+      phoneService.create(adObject).then((returnedPhone) => {
+        setPersons(persons.concat(returnedPhone));
         setNewName('');
         setNewPhone('');
       });
