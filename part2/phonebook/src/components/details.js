@@ -4,7 +4,7 @@ const Details = ({ persons, phoneList, deletePhoneUser }) => {
       {phoneList.map((person) => {
         const { name, number, id } = person;
         return (
-          <div key={id}>
+          <div className='list' key={id}>
             {name} {number}
             <button onClick={() => deletePhoneUser(id, name)}>delete</button>
           </div>

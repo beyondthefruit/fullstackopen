@@ -4,12 +4,15 @@ import Details from './components/details';
 import Filter from './components/filter';
 import PersonForm from './components/form';
 import phoneService from './services/phones';
+import './index.css';
+import Notification from './components/notif';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('name');
   const [newPhone, setNewPhone] = useState('phone');
   const [filteredList, setFilteredList] = useState('');
+  const [successMessage, setSuccessMessage] = useState(null);
   // const [filt, setFilt] = useState(true);
 
   const hook = () => {
@@ -42,11 +45,12 @@ const App = () => {
     let checkName = persons.find((person) => person.name === newName);
 
     console.log(checkName);
-    const windowUpdate = window.confirm(
-      `Are you sure you want to update ${newName}'phone number?`
-    );
-    if (windowUpdate) {
-      if (checkName) {
+
+    if (checkName) {
+      const windowUpdate = window.confirm(
+        `Are you sure you want to update ${newName}'phone number?`
+      );
+      if (windowUpdate) {
         let checkNameId = checkName.id;
         const user = persons.find((person) => person.id === checkNameId);
         const changedPhoneNumber = { ...user, number: newPhone };
@@ -59,15 +63,25 @@ const App = () => {
               )
             );
             setNewName('');
+            setSuccessMessage(
+              `${newName}'s phone number was successfully updated`
+            );
+            setTimeout(() => {
+              setSuccessMessage(null);
+            }, 5000);
           });
-      } else {
-        //else we proceed with concat the persons array
-        phoneService.create(adObject).then((returnedPhone) => {
-          setPersons(persons.concat(returnedPhone));
-          setNewName('');
-          setNewPhone('');
-        });
       }
+    } else {
+      //else we proceed with concat the persons array
+      phoneService.create(adObject).then((returnedPhone) => {
+        setPersons(persons.concat(returnedPhone));
+        setNewName('');
+        setNewPhone('');
+        setSuccessMessage(`${newName} was successfully added`);
+        setTimeout(() => {
+          setSuccessMessage(null);
+        }, 5000);
+      });
     }
     setNewName('');
     setNewPhone('');
@@ -108,6 +122,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification successMessage={successMessage} />
       <Filter
         filterPerson={filterPerson}
         filteredList={filteredList}
@@ -128,8 +143,6 @@ const App = () => {
           handleChangePhone={handleChangePhone}
         />
       </div>
-      <h2>Numbers</h2>
-      <div> {newName}</div>
     </div>
   );
 };
