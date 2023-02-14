@@ -6,6 +6,7 @@ import PersonForm from './components/form';
 import phoneService from './services/phones';
 import './index.css';
 import Notification from './components/notif';
+import Error from './components/error';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -13,14 +14,9 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('phone');
   const [filteredList, setFilteredList] = useState('');
   const [successMessage, setSuccessMessage] = useState(null);
-  // const [filt, setFilt] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const hook = () => {
-    //first method
-    // phoneService.getAll().then((response) => {
-    //   setPersons(response.data);
-    // });
-    //second method after returning the request inside the service
     phoneService.getAll().then((initialPhone) => {
       setPersons(initialPhone);
     });
@@ -39,11 +35,7 @@ const App = () => {
       id: persons.length + 1,
     };
 
-    //we first look is newName already exist
-    //we window.confirm if user want to update this person
-    // if yes so we get is id
     let checkName = persons.find((person) => person.name === newName);
-
     console.log(checkName);
 
     if (checkName) {
@@ -66,9 +58,20 @@ const App = () => {
             setSuccessMessage(
               `${newName}'s phone number was successfully updated`
             );
+
             setTimeout(() => {
               setSuccessMessage(null);
             }, 5000);
+          })
+          .catch((error) => {
+            setErrorMessage(`${newName} has already been removed from server`);
+            console.log('this is my catch parameter', error);
+
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
+            setPersons(persons.filter((p) => p.id !== checkNameId));
+            console.log('this is my catch parameter', error);
           });
       }
     } else {
@@ -78,6 +81,7 @@ const App = () => {
         setNewName('');
         setNewPhone('');
         setSuccessMessage(`${newName} was successfully added`);
+
         setTimeout(() => {
           setSuccessMessage(null);
         }, 5000);
@@ -123,6 +127,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification successMessage={successMessage} />
+      <Error errorMessage={errorMessage} />
       <Filter
         filterPerson={filterPerson}
         filteredList={filteredList}

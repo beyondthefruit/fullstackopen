@@ -8,7 +8,7 @@ h2 {
   font-size: 15px;
 }
 
-.error {
+.success {
   color: green;
   background: lightgrey;
   font-size: 20px;
@@ -16,4 +16,24 @@ h2 {
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+  /* display: hidden; */
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+  color: green;
 }

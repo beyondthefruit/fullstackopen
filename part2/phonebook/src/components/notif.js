@@ -3,7 +3,12 @@ const Notification = ({ successMessage }) => {
     return null;
   }
 
-  return <div className='error'>{successMessage}</div>;
+  return (
+    <>
+      {/* <div className={`${toggleS} ? 'success visible' : 'hidden'`}></div> */}
+      <div className='success'>{successMessage}</div>
+    </>
+  );
 };
 
 export default Notification;
