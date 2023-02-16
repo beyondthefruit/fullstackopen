@@ -7,6 +7,9 @@ import Countries from './components/countries';
 function App() {
   const [countries, setCountries] = useState([]);
   const [filteredList, setFilteredList] = useState('');
+  const [selector, setSelector] = useState('');
+
+  const [toggle, setToggle] = useState(false);
 
   const hook = () => {
     countryService.getAll().then((initial) => {
@@ -24,10 +27,31 @@ function App() {
   };
 
   const countryFilt = countries.filter((country) => {
+    console.log(filteredList);
     return country.name.common
       .toLowerCase()
-      .includes(filteredList.toLocaleLowerCase());
+      .includes(filteredList.toLowerCase());
   });
+  const filt = countries.filter((country) => {
+    console.log(filteredList);
+    return country.name.common.toLowerCase().includes(selector.toLowerCase());
+  });
+
+  const objectMapPP = (c) => {
+    Object.entries(c).map((e) => {
+      console.log(e[1]);
+      <p>{e[1]}</p>;
+
+      // console.log(langu);
+    });
+    return;
+  };
+
+  const handleClick = (country) => {
+    const target = country.name.common;
+    console.log(target);
+    return setSelector(target);
+  };
 
   return (
     <>
@@ -36,7 +60,15 @@ function App() {
         handleFilter={handleFilter}
         filteredList={filteredList}
       />
-      <Countries countryFilt={countryFilt} />
+      <Countries
+        countryFilt={countryFilt}
+        objectMapPP={objectMapPP}
+        handleClick={handleClick}
+        selector={selector}
+        toggle={toggle}
+        setToggle={setToggle}
+        filt={filt}
+      />
     </>
   );
 }
