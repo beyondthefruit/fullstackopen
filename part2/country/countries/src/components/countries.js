@@ -4,10 +4,8 @@ const Countries = ({
   countryFilt,
   objectMapPP,
   handleClick,
-  selector,
-  toggle,
   setToggle,
-  test,
+  toggle,
   filt,
 }) => {
   console.log(toggle);
@@ -25,25 +23,11 @@ const Countries = ({
                 key={country.name.common}
                 {...country}
                 handleClick={handleClick}
+                country={country}
                 setToggle={setToggle}
                 toggle={toggle}
-                country={country}
               />
             );
-            // <>
-            //   {console.log(country)}
-            //   <li key={country.name.common}>
-            //     {country.name.common}
-            //     <button
-            //       onClick={() => {
-            //         handleClick(country);
-            //         setToggle(!toggle);
-            //       }}
-            //     >
-            //       {!toggle ? 'view country' : 'close preview'}
-            //     </button>
-            //   </li>
-            // </>
           })}
         </ul>
         <div>

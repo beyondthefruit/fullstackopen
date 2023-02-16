@@ -26,14 +26,16 @@ function App() {
     setFilteredList(e.target.value);
   };
 
+  //use to filter based on the input
   const countryFilt = countries.filter((country) => {
-    console.log(filteredList);
+    // console.log(filteredList);
     return country.name.common
       .toLowerCase()
       .includes(filteredList.toLowerCase());
   });
+  //use to filter onClick
   const filt = countries.filter((country) => {
-    console.log(filteredList);
+    // console.log(filteredList);
     return country.name.common.toLowerCase().includes(selector.toLowerCase());
   });
 
@@ -47,9 +49,10 @@ function App() {
     return;
   };
 
+  //btn click target selection
   const handleClick = (country) => {
     const target = country.name.common;
-    console.log(target);
+    // console.log(target);
     return setSelector(target);
   };
 
