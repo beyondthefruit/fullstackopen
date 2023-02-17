@@ -8,9 +8,9 @@ const getAll = () => {
 };
 
 const getApi = (capital) => {
-  const ACCESS_KEY = process.env.REACT_APP_API_KEY;
+  const api_key = process.env.REACT_APP_API_KEY;
   const request = axios.get(
-    `${apiUrl}/weather?=${capital}&appid=${ACCESS_KEY}`
+    `${apiUrl}/weather?q=${capital}&appid=${api_key}&units=metric`
   );
 
   return request.then((response) => response.data);

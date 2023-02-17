@@ -1,6 +1,15 @@
 import Weather from './weather';
-const Country = ({ capital, flags, population, area, languages, name }) => {
+const Country = ({
+  capital,
+  flags,
+  population,
+  area,
+  languages,
+  name,
+  country,
+}) => {
   console.log(languages);
+
   const flag = flags.png;
   const nameC = name.common;
   return (
@@ -17,19 +26,9 @@ const Country = ({ capital, flags, population, area, languages, name }) => {
 
       <img src={flag} alt={nameC}></img>
 
-      <Weather />
+      <Weather capital={capital} country={country} />
     </div>
-    // );
   );
 };
 
 export default Country;
-
-//  {
-//    toggle &&(
-//      filt.map((country) => {
-//        console.log(country);
-//        return <p>country.name</p>;
-//        // return <Country key={country.name.common} {...country} />;
-//      });
-// ) }
