@@ -1,7 +1,5 @@
-// const Country = ({ country }) => {
+import Weather from './weather';
 const Country = ({ capital, flags, population, area, languages, name }) => {
-  // console.log(population);
-  // console.log(flags);
   console.log(languages);
   const flag = flags.png;
   const nameC = name.common;
@@ -10,16 +8,16 @@ const Country = ({ capital, flags, population, area, languages, name }) => {
       <h3>{nameC} </h3>
       <p>capital: {capital}</p>
       <p>area: {area}</p>
+      {/* <p>population: {population}</p> */}
       <h5>languages:</h5>
 
-      {/* <div>{objectMapPP(languages)}</div> */}
+      {Object.values(languages).map((language, index) => (
+        <li key={index}>{language}</li>
+      ))}
+
       <img src={flag} alt={nameC}></img>
-      {/* <p>{languages}</p> */}
-      {/* console.log(languages); */}
-      {/* {country.languages.map((lang) => {
-                console.log(lang);
-                return <li>{lang}</li>;
-              })} */}
+
+      <Weather />
     </div>
     // );
   );
