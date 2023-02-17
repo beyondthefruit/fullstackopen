@@ -7,9 +7,11 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
-const getApi = () => {
+const getApi = (capital) => {
   const ACCESS_KEY = process.env.REACT_APP_API_KEY;
-  const request = axios.get(`${apiUrl}?access_key=${ACCESS_KEY}`);
+  const request = axios.get(
+    `${apiUrl}/weather?=${capital}&appid=${ACCESS_KEY}`
+  );
 
   return request.then((response) => response.data);
 };
