@@ -39,16 +39,6 @@ function App() {
     return country.name.common.toLowerCase().includes(selector.toLowerCase());
   });
 
-  const objectMapPP = (c) => {
-    Object.entries(c).map((e) => {
-      console.log(e[1]);
-      <p>{e[1]}</p>;
-
-      // console.log(langu);
-    });
-    return;
-  };
-
   //btn click target selection
   const handleClick = (country) => {
     const target = country.name.common;
@@ -65,7 +55,6 @@ function App() {
       />
       <Countries
         countryFilt={countryFilt}
-        objectMapPP={objectMapPP}
         handleClick={handleClick}
         selector={selector}
         toggle={toggle}

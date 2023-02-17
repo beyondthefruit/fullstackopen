@@ -2,7 +2,7 @@ import Country from './country';
 import List from './list';
 const Countries = ({
   countryFilt,
-  objectMapPP,
+
   handleClick,
   setToggle,
   toggle,
