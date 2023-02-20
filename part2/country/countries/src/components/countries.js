@@ -1,13 +1,6 @@
 import Country from './country';
 import List from './list';
-const Countries = ({
-  countryFilt,
-
-  handleClick,
-  setToggle,
-  toggle,
-  filt,
-}) => {
+const Countries = ({ countryFilt, handleClick, setToggle, toggle, filt }) => {
   console.log(toggle);
 
   if (countryFilt.length > 10 && countryFilt.length < 180) {

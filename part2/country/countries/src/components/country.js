@@ -2,11 +2,11 @@ import Weather from './weather';
 const Country = ({
   capital,
   flags,
-  population,
   area,
   languages,
   name,
   country,
+  selector,
 }) => {
   console.log(languages);
 
@@ -17,7 +17,7 @@ const Country = ({
       <h3>{nameC} </h3>
       <p>capital: {capital}</p>
       <p>area: {area}</p>
-      {/* <p>population: {population}</p> */}
+
       <h5>languages:</h5>
 
       {Object.values(languages).map((language, index) => (
@@ -26,7 +26,7 @@ const Country = ({
 
       <img src={flag} alt={nameC}></img>
 
-      <Weather capital={capital} country={country} />
+      <Weather capital={capital} />
     </div>
   );
 };
