@@ -63,9 +63,15 @@ app.get('/info', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
+  //catch if name or number is missing
   if (!body.name) {
     return response.status(400).json({
-      error: 'content missing',
+      error: 'name must be added',
+    });
+  }
+  if (!body.number) {
+    return response.status(400).json({
+      error: 'number must be added',
     });
   }
   const person = {
@@ -73,6 +79,16 @@ app.post('/api/persons', (request, response) => {
     number: body.number,
     id: generateId(),
   };
+  //catch if name exist already
+  let checkName = persons.find((persona) => persona.name === person.name);
+  console.log(checkName);
+
+  if (checkName) {
+    return response.status(400).json({
+      error: 'name must be unique',
+    });
+  }
+
   persons = persons.concat(person);
   response.json(person);
 });
