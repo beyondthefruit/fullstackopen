@@ -3,9 +3,16 @@ const app = express();
 var morgan = require('morgan');
 app.use(express.json());
 
+// tiny method second step to display the name, and number in console
+morgan.token('data', (req, res) => {
+  console.log(JSON.stringify(req.body));
+  return JSON.stringify(req.body);
+});
+//tiny morgan method to display in console first step
 app.use(
-  morgan(':method :url :status :res[content-length] - :response-time ms')
+  morgan(':method :url :status :res[content-length] - :response-time ms :data')
 );
+
 let persons = [
   {
     id: 1,
