@@ -4,11 +4,11 @@ const Note = ({ notesToShow, toggleImportanceOf }) => {
     <>
       <ul>
         {notesToShow.map((note) => {
-          console.log(note);
+          // console.log(note);
           const { id, content, important } = note;
           const label = important ? 'make not important' : 'make important';
           return (
-            <li key={id}>
+            <li className='note' key={id}>
               {content}
               <button onClick={() => toggleImportanceOf(id)}>{label}</button>
             </li>
