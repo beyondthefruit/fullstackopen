@@ -50,11 +50,31 @@ app.delete('/api/persons/:id', (request, response) => {
   response.status(204).end();
 });
 
+const generateId = () => {
+  return Math.floor(Math.random() * (10000 - 5) + 5);
+};
+// console.log(generateId());
 //get nu,ber of person in phonebook and date to request
 app.get('/info', (request, response) => {
   response.send(`<p>Phonebook has info for ${persons.length} people!</p>
   <p>${new Date().toString()} </p>
   `);
+});
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body;
+  if (!body.name) {
+    return response.status(400).json({
+      error: 'content missing',
+    });
+  }
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  };
+  persons = persons.concat(person);
+  response.json(person);
 });
 
 const PORT = 3007;
