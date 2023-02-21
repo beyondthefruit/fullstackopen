@@ -35,6 +35,13 @@ app.get('/api/persons/:id', (request, response) => {
   response.json(person);
 });
 
+//get nu,ber of person in phonebook and date to request
+app.get('/info', (request, response) => {
+  response.send(`<p>Phonebook has info for ${persons.length} people!</p>
+  <p>${new Date().toString()} </p>
+  `);
+});
+
 const PORT = 3007;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
