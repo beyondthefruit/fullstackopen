@@ -44,6 +44,12 @@ app.get('/api/persons/:id', (request, response) => {
   response.json(person);
 });
 
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((person) => person.id !== id);
+  response.status(204).end();
+});
+
 //get nu,ber of person in phonebook and date to request
 app.get('/info', (request, response) => {
   response.send(`<p>Phonebook has info for ${persons.length} people!</p>
