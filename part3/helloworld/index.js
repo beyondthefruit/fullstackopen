@@ -42,7 +42,7 @@ let notes = [
     important: true,
   },
 ];
-// :id mean that we define the parameters for the routes (address)
+// :id mean that we define the parameters for the routes (address).
 app.get('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id);
   console.log(id);
