@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 var morgan = require('morgan');
-app.use(express.json());
+const cors = require('cors');
 
+app.use(cors());
+app.use(express.static('build'));
 // tiny method second step to display the name, and number in console
 morgan.token('data', (req, res) => {
   console.log(JSON.stringify(req.body));
@@ -104,6 +106,6 @@ app.post('/api/persons', (request, response) => {
   response.json(person);
 });
 
-const PORT = 3007;
+const PORT = process.env.PORT || 3007;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
