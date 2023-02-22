@@ -24,7 +24,7 @@ const App = () => {
 
   useEffect(hook, []);
 
-  //form management
+  //form management lili
   const addPhone = (e) => {
     e.preventDefault(); // necessary to avoid reloading the page
     // console.log('button clicked', event.target);
