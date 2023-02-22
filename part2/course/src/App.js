@@ -21,7 +21,7 @@ const App = () => {
   }, []);
   // console.log('render', notes.length, 'notes');
 
-  //form mgt
+  //form mgt au secours
   const addNote = (event) => {
     event.preventDefault(); // necessary to avoid reloading the page
     // console.log('button clicked', event.target);
