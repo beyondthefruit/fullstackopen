@@ -4,6 +4,7 @@ var morgan = require('morgan');
 const cors = require('cors');
 
 app.use(cors());
+app.use(express.json());
 app.use(express.static('build'));
 // tiny method second step to display the name, and number in console
 morgan.token('data', (req, res) => {
