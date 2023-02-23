@@ -11,7 +11,7 @@ morgan.token('data', (req, res) => {
   console.log(JSON.stringify(req.body));
   return JSON.stringify(req.body);
 });
-//tiny morgan method to display in console first step
+//tiny morgan method to display in console 1st step
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :data')
 );
