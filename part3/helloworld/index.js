@@ -1,25 +1,36 @@
+require('dotenv').config();
 const express = require('express');
 
+const Note = require('./models/note');
 const app = express();
 const cors = require('cors');
 
 app.use(cors());
 app.use(express.static('build'));
 
-const mongoose = require('mongoose');
-const password = process.env.KEY;
+// const mongoose = require('mongoose');
+// const password = process.env.DB_PASS;
 
-const url = `mongodb+srv://kevinhanard:${password}@notes-fullstackopen.enrx3eh.mongodb.net/noteApp?retryWrites=true&w=majority`;
+// const url = `mongodb+srv://kevinhanard:${password}@notes-fullstackopen.enrx3eh.mongodb.net/noteApp?retryWrites=true&w=majority`;
 
-mongoose.set('strictQuery', false);
-mongoose.connect(url);
+// mongoose.set('strictQuery', false);
+// mongoose.connect(url);
 
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
-});
+// const noteSchema = new mongoose.Schema({
+//   content: String,
+//   important: Boolean,
+// });
 
-const Note = mongoose.model('Note', noteSchema);
+// if we want to change the display of json data
+// noteSchema.set('toJSON', {
+//   transform: (document, returnedObject) => {
+//     returnedObject.id = returnedObject._id.toString();
+//     delete returnedObject._id;
+//     delete returnedObject.__v;
+//   },
+// });
+
+// const Note = mongoose.model('Note', noteSchema);
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method);
@@ -121,6 +132,7 @@ app.post('/api/notes', (request, response) => {
 });
 app.use(unknownEndpoint);
 
-const PORT = process.env.PORT || 3006;
+const PORT = process.env.PORT;
+// || 3006;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
