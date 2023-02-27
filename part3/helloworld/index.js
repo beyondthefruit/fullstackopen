@@ -1,9 +1,25 @@
 const express = require('express');
+
 const app = express();
 const cors = require('cors');
 
 app.use(cors());
 app.use(express.static('build'));
+
+const mongoose = require('mongoose');
+const password = process.env.KEY;
+
+const url = `mongodb+srv://kevinhanard:${password}@notes-fullstackopen.enrx3eh.mongodb.net/noteApp?retryWrites=true&w=majority`;
+
+mongoose.set('strictQuery', false);
+mongoose.connect(url);
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+});
+
+const Note = mongoose.model('Note', noteSchema);
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method);
@@ -21,44 +37,50 @@ app.use(express.json());
 app.use(requestLogger);
 
 let notes = [
-  {
-    id: 1,
-    content: 'HTML is easy',
-    important: true,
-  },
-  {
-    id: 2,
-    content: 'Browser can execute only JavaScript',
-    important: false,
-  },
-  {
-    id: 3,
-    content: 'GET & POST are the most important methods of HTTP protocol',
-    important: true,
-  },
-  {
-    id: 4,
-    content: 'Postie',
-    important: true,
-  },
+  // {
+  //   id: 1,
+  //   content: 'HTML is easy',
+  //   important: true,
+  // },
+  // {
+  //   id: 2,
+  //   content: 'Browser can execute only JavaScript',
+  //   important: false,
+  // },
+  // {
+  //   id: 3,
+  //   content: 'GET & POST are the most important methods of HTTP protocol',
+  //   important: true,
+  // },
+  // {
+  //   id: 4,
+  //   content: 'Postie',
+  //   important: true,
+  // },
 ];
 // :id mean that we define the parameters for the routes (address).
-app.get('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id);
-  console.log(id);
-  const note = notes.find((note) => {
-    // console.log(note.id, typeof note.id, id, typeof id, note.id === id);
+// app.get('/api/notes', (request, response) => {
+//   // const id = Number(request.params.id);
+//   // console.log(id);
+//   // const note = notes.find((note) => {
+//   // console.log(note.id, typeof note.id, id, typeof id, note.id === id);
 
-    //following means that if we can't find data we return an error 404
-    note.id === id;
-    if (note) {
-      response.json(note);
-    } else {
-      response.status(404).end();
-    }
+//   //following means that if we can't find data we return an error 404
+//   //   note.id === id;
+//   //   if (note) {
+//   //     response.json(note);
+//   //   } else {
+//   //     response.status(404).end();
+//   //   }
+//   // });
+//   // console.log(note);
+//   // response.json(note);
+
+// });
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then((notes) => {
+    response.json(notes);
   });
-  console.log(note);
-  response.json(note);
 });
 
 app.delete('/api/notes/:id', (request, response) => {
