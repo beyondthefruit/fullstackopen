@@ -2,23 +2,21 @@ require('dotenv').config();
 const express = require('express');
 const Person = require('./models/person');
 const app = express();
-var morgan = require('morgan');
+// var morgan = require('morgan');
 const cors = require('cors');
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static('build'));
 // tiny method second step to display the name, and number in console
-morgan.token('data', (req, res) => {
-  console.log(JSON.stringify(req.body));
-  return JSON.stringify(req.body);
-});
+// morgan.token('data', (req, res) => {
+//   console.log(JSON.stringify(req.body));
+//   return JSON.stringify(req.body);
+// });
 //tiny morgan method to display in console 1st step
-app.use(
-  morgan(':method :url :status :res[content-length] - :response-time ms :data')
-);
-
-let persons = [];
+// app.use(
+//   morgan(':method :url :status :res[content-length] - :response-time ms :data')
+// );
 
 app.get('/api/persons', (request, response) => {
   Person.find({}).then((persons) => {
@@ -27,24 +25,23 @@ app.get('/api/persons', (request, response) => {
 });
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((person) => person.id === id);
-  // response.json(person);
-
-  if (person) {
-    response.json(person);
-  } else {
-    response.statusMessage = `This user isn't in the phonebook`;
-    response.status(404).end;
-    // response.status(404).send(`This user isn't in the phonebook`).end;
-  }
-  response.json(person);
+  Person.findById(request.params.id)
+    .then((person) => {
+      if (person) {
+        response.json(person);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
 });
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((person) => person.id !== id);
-  response.status(204).end();
+  Person.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 // const generateId = () => {
