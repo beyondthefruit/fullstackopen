@@ -59,11 +59,11 @@ app.delete('/api/persons/:id', (request, response) => {
 // };
 // console.log(generateId());
 //get nu,ber of person in phonebook and date to request
-// app.get('/info', (request, response) => {
-//   response.send(`<p>Phonebook has info for ${persons.length} people!</p>
-//   <p>${new Date().toString()} </p>
-//   `);
-// });
+app.get('/info', (request, response) => {
+  response.send(`<p>Phonebook has info for ${Person.length} people!</p>
+  <p>${new Date().toString()} </p>
+  `);
+});
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
