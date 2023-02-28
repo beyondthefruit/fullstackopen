@@ -1,11 +1,11 @@
-GET http://localhost:3001/api/notes/
+GET http://localhost:3006/api/notes/
 
 ###
 
-POST http://localhost:3006/api/notes/HTTP/1.1
+POST http://localhost:3006/api/notes/
 content-Type: application/json
 
 {
-    "name": "sample",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "content": "Json is harder baby",
+    "important": true
 }
