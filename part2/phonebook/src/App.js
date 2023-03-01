@@ -89,14 +89,16 @@ const App = () => {
           }, 5000);
         })
         .catch((error) => {
-          setErrorMessage(
-            'Person validation failed ',
-            error.response.data.error
-          );
-          console.log(error.response.data.error);
+          // setErrorMessage(
+          //   'Person validation failed',
+          //   error.response.data.error
+          // );
+          setErrorMessage(error.response.data.error);
+
           setTimeout(() => {
             setErrorMessage(null);
           }, 5000);
+          console.log(error.response.data.error);
         });
     }
     setNewName('');
