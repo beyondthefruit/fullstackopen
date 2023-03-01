@@ -1,13 +1,13 @@
-require('dotenv').config();
-const express = require('express');
-const Person = require('./models/person');
-const app = express();
-// var morgan = require('morgan');
-const cors = require('cors');
+// require('dotenv').config();
+// const express = require('express');
+// const Person = require('./models/person');
+// const app = express();
+// // var morgan = require('morgan');
+// const cors = require('cors');
 
-app.use(cors());
-app.use(express.json());
-app.use(express.static('build'));
+// app.use(cors());
+// app.use(express.json());
+// app.use(express.static('build'));
 // tiny method second step to display the name, and number in console
 // morgan.token('data', (req, res) => {
 //   console.log(JSON.stringify(req.body));
@@ -65,7 +65,7 @@ app.get('/info', (request, response) => {
   `);
 });
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body;
   //catch if name or number is missing
   if (body.name === undefined) {
@@ -94,9 +94,12 @@ app.post('/api/persons', (request, response) => {
   //   });
   // }
 
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
-  });
+  person
+    .save()
+    .then((savedPerson) => {
+      response.json(savedPerson);
+    })
+    .catch((error) => next(error));
   // persons = persons.concat(person);
   // response.json(person);
 });
