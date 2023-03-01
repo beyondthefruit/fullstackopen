@@ -48,6 +48,7 @@ app.post('/api/notes', (request, response, next) => {
   const note = new Note({
     content: body.content,
     important: body.important || false,
+    date: new Date(),
   });
 
   note
@@ -58,7 +59,7 @@ app.post('/api/notes', (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(request.params.id)
     .then((note) => {
       if (note) {
@@ -72,7 +73,7 @@ app.get('/api/notes/:id', (request, response) => {
 
 app.delete('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndRemove(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
