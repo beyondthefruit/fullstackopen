@@ -8,14 +8,21 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 app.use(express.static('build'));
+// tiny method second step to display the name, and number in console
+// morgan.token('data', (req, res) => {
+//   console.log(JSON.stringify(req.body));
+//   return JSON.stringify(req.body);
+// });
+//tiny morgan method to display in console 1st step
+// app.use(
+//   morgan(':method :url :status :res[content-length] - :response-time ms :data')
+// );
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' });
-  } else if (error.name === 'ValidationError') {
-    return response.status(400).json({ error: error.message });
   }
 
   next(error);
@@ -47,51 +54,61 @@ app.delete('/api/persons/:id', (request, response) => {
     .catch((error) => next(error));
 });
 
+// const generateId = () => {
+//   return Math.floor(Math.random() * (10000 - 5) + 5);
+// };
+// console.log(generateId());
+//get nu,ber of person in phonebook and date to request
 app.get('/info', (request, response) => {
   response.send(`<p>Phonebook has info for ${Person.length} people!</p>
   <p>${new Date().toString()} </p>
   `);
 });
 
-app.post('/api/persons', (request, response, next) => {
+app.post('/api/persons', (request, response) => {
   const body = request.body;
   //catch if name or number is missing
-  // if (body.name === undefined) {
-  //   return response.status(400).json({
-  //     error: 'name must be added',
-  //   });
-  // }
-  // // if (!body.number) {
-  // if (body.number === undefined) {
-  //   return response.status(400).json({
-  //     error: 'number must be added',
-  //   });
-  // }
+  if (body.name === undefined) {
+    return response.status(400).json({
+      error: 'name must be added',
+    });
+  }
+  // if (!body.number) {
+  if (body.number === undefined) {
+    return response.status(400).json({
+      error: 'number must be added',
+    });
+  }
   const person = new Person({
     name: body.name,
     number: body.number,
+    // id: generateId(),
   });
+  //catch if name exist already
+  // let checkName = persons.find((persona) => persona.name === person.name);
+  // console.log(checkName);
 
-  person
-    .save()
-    .then((savedPerson) => {
-      response.json(savedPerson);
-    })
-    .catch((error) => next(error));
+  // if (checkName) {
+  //   return response.status(400).json({
+  //     error: 'name must be unique',
+  //   });
+  // }
+
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
+  // persons = persons.concat(person);
+  // response.json(person);
 });
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const { name, number } = request.body;
+  const body = request.body;
 
-  // const person = {
-  //   name: body.name,
-  //   number: body.number,
-  // };
-  Person.findByIdAndUpdate(
-    request.params.id,
-    { name, number },
-    { new: true, runValidators: true, context: 'query' }
-  )
+  const person = {
+    name: body.name,
+    number: body.number,
+  };
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
     .then((updatedPerson) => {
       response.json(updatedPerson);
     })
