@@ -6,6 +6,6 @@ POST http://localhost:3007/api/persons/
 content-Type: application/json
 
 { 
-    "name": "Michel Garnier",
-    "number": "39-23-6423122"
+    "name": "Michou",
+    "number": "32"
 }
