@@ -76,16 +76,28 @@ const App = () => {
       }
     } else {
       //else we proceed with concat the persons array
-      phoneService.create(adObject).then((returnedPhone) => {
-        setPersons(persons.concat(returnedPhone));
-        setNewName('');
-        setNewPhone('');
-        setSuccessMessage(`${newName} was successfully added`);
+      phoneService
+        .create(adObject)
+        .then((returnedPhone) => {
+          setPersons(persons.concat(returnedPhone));
+          setNewName('');
+          setNewPhone('');
+          setSuccessMessage(`${newName} was successfully added`);
 
-        setTimeout(() => {
-          setSuccessMessage(null);
-        }, 5000);
-      });
+          setTimeout(() => {
+            setSuccessMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          setErrorMessage(
+            'Person validation failed ',
+            error.response.data.error
+          );
+          console.log(error.response.data.error);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
+        });
     }
     setNewName('');
     setNewPhone('');

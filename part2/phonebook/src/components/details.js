@@ -6,7 +6,7 @@ const Details = ({ persons, phoneList, deletePhoneUser }) => {
         return (
           <div className='list' key={id}>
             {name} {number}
-            <button onClick={() => deletePhoneUser(id, name)}>delete</button>
+            <button onClick={() => deletePhoneUser(id, name)}>delete me</button>
           </div>
         );
       })}
