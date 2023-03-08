@@ -6,6 +6,6 @@ POST http://localhost:3006/api/notes/
 content-Type: application/json
 
 {
-    "content": "JSX",
+    "content": "JSX is fun",
     "important": true
 }
