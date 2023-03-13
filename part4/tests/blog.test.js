@@ -1,3 +1,4 @@
+const { isExportDeclaration } = require('typescript');
 const listHelper = require('../utils/list_helper');
 
 const blogs = [
@@ -82,5 +83,16 @@ describe('total likes', () => {
   test('when list has more than one blog, sum up the total likes', () => {
     const result = listHelper.totalLikes(blogs);
     expect(result).toBe(36);
+  });
+});
+
+describe('favorite blogpost', () => {
+  test('Which article has the most likes', () => {
+    const result = listHelper.favoriteBlog(blogs);
+    expect(result).toEqual({
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      likes: 12,
+    });
   });
 });

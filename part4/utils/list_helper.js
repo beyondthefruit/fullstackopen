@@ -12,7 +12,21 @@ const totalLikes = (blogs) => {
   return total;
 };
 
+const favoriteBlog = (blogs) => {
+  const favo = blogs.reduce((prev, curr) =>
+    prev.likes > curr.likes ? prev : curr
+  );
+
+  const fav = {
+    title: favo.title,
+    author: favo.author,
+    likes: favo.likes,
+  };
+  return fav;
+};
+
 module.exports = {
   dummy,
   totalLikes,
+  favoriteBlog,
 };
