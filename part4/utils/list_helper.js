@@ -26,14 +26,14 @@ const favoriteBlog = (blogs) => {
   return fav;
 };
 
-const mostBlog = (blogs) => {
-  const total = blogs.reduce((acc, curr) => {
-    acc += curr.author;
-    return acc;
-  }, 0);
-};
+// const mostBlog = (blogs) => {
+//   const total = blogs.reduce((acc, curr) => {
+//     acc += curr.author;
+//     return acc;
+//   }, 0);
+// };
 
-const most = (blogs) => {
+const mostBlogs = (blogs) => {
   const count = _.chain(blogs)
     .countBy('author')
     .toPairs()
@@ -45,13 +45,11 @@ const most = (blogs) => {
     blogs: count[1],
   };
   return bestAuthor;
-  //     return count;
 };
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlog,
-  most,
+  mostBlogs,
 };
