@@ -6,8 +6,8 @@ POST http://localhost:3003/api/blogs/
 content-Type: application/json
 
 {
-  "title": "css",
-  "author": "quincy larson",
+  "title": "Node",
+  "author": "Mark Zukenberg",
   "url": "",
-  "likes": 2
+  "likes": 0
 }
