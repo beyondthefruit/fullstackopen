@@ -41,8 +41,17 @@ test('that blogs are returned as JSON', async () => {
 
 test('that there are two blogs', async () => {
   const response = await api.get('/api/blogs');
-
+  console.log(response.body);
   expect(response.body).toHaveLength(2);
+});
+
+test('that unique identifier is named id', async () => {
+  const response = await api.get('/api/blogs');
+  console.log(response.body[0].id);
+  // console.log(id);
+  // we have to use [0] to check this property
+  expect(response.body[0].id).toBeDefined();
+  expect(response.body[0]._id).not.toBeDefined();
 });
 
 //close database connection used by Mongoose
