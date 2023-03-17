@@ -57,6 +57,28 @@ test('a valid post can be added', async () => {
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 });
 
+test('that if the likes property is missing from request it retun 0', async () => {
+  const newPost = {
+    _id: '5a422aa71b54a676222023939939399',
+    title: 'Testing the revolution',
+    author: 'K.H Poilu',
+    url: 'http://www.u.unilibre.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+  };
+  await api
+    .post('/api/blogs')
+    .send(newPost)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+  const blogAtEnd = await helper.blogsInDb();
+
+  // console.log(blogAtEnd);
+  const blogLength = (await blogAtEnd.length) - 1;
+  // console.log(blogLength);
+  lastBlog = blogAtEnd[blogLength];
+  console.log(lastBlog);
+  expect(lastBlog.likes).toBe(0);
+});
+
 //close database connection used by Mongoose
 afterAll(async () => {
   await mongoose.connection.close();
