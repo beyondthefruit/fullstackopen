@@ -79,6 +79,17 @@ test('that if the likes property is missing from request it retun 0', async () =
   expect(lastBlog.likes).toBe(0);
 });
 
+test('that verify that if title or url properties are missing the backend respond with status 400', async () => {
+  const newPost = {
+    _id: '5a422aa71b54a676222023939939399',
+    author: 'K.H Poilu',
+    likes: 5,
+  };
+  await api.post('/api/blogs').send(newPost).expect(400);
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+});
+
 //close database connection used by Mongoose
 afterAll(async () => {
   await mongoose.connection.close();
