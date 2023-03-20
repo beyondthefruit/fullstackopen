@@ -22,3 +22,17 @@ content-Type: application/json
     "content": "HTML is easier than CSS",
     "important": true
 }
+
+
+###
+GET http://localhost:3006/api/users/
+
+
+###
+POST http://localhost:3006/api/users
+content-Type: application/json
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
+}
