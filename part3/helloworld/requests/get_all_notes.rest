@@ -9,3 +9,16 @@ content-Type: application/json
     "content": "JSX is fun",
     "important": true
 }
+
+###
+DELETE http://localhost:3006/api/notes/63fe8738a656a32d9e944501
+content-Type: application/json
+
+###
+PUT http://localhost:3006/api/notes/63f6eff894b87a06e6148a23
+content-Type: application/json
+
+{
+    "content": "HTML is easier than CSS",
+    "important": true
+}
