@@ -29,7 +29,7 @@ GET http://localhost:3006/api/users/
 
 
 ###
-POST http://localhost:3006/api/users
+POST http://localhost:3006/api/users/
 content-Type: application/json
 {
     "username": "root",
