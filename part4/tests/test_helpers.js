@@ -17,6 +17,14 @@ const initialBlogs = [
     likes: 5,
     __v: 0,
   },
+  // {
+  //   _id: '5a422aa71b54a676222020200211111',
+  //   title: 'Testing the revolution',
+  //   author: 'K.H Poilu',
+  //   url: 'http://www.u.unilibre.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+  //   likes: 15,
+  //   __v: 0,
+  // },
 ];
 
 const blogsInDb = async () => {

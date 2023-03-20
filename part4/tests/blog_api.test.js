@@ -90,6 +90,24 @@ test('that verify that if title or url properties are missing the backend respon
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
 });
 
+test('a blog can be deleted', async () => {
+  const blogsAtStart = await helper.blogsInDb();
+  const blogToDelete = blogsAtStart[0];
+  console.log(blogsAtStart);
+  console.log(blogToDelete);
+
+  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  console.log('this is blogsAtEnd', blogsAtEnd);
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+
+  const title = blogsAtEnd.map((b) => b.title);
+
+  console.log(title);
+  expect(title).not.toContain(blogToDelete.title);
+});
+
 //close database connection used by Mongoose
 afterAll(async () => {
   await mongoose.connection.close();
