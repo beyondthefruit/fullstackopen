@@ -14,6 +14,13 @@ content-Type: application/json
 
 ###
 
-# DELETE http://localhost:3003/api/blogs/"
-# content-Type: application/json
+PUT http://localhost:3003/api/blogs/6417aa740267d13952260702
+content-Type: application/json
 
+{
+  "title": "React patterns",
+  "author": "Mark Galapopo",
+  "url": "https://reactpatterns.com/",
+  "likes": 12
+}
+   

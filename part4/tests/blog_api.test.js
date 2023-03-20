@@ -57,7 +57,7 @@ test('a valid post can be added', async () => {
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 });
 
-test('that if the likes property is missing from request it retun 0', async () => {
+test('that if the likes property is missing from request it return 0', async () => {
   const newPost = {
     _id: '5a422aa71b54a676222023939939399',
     title: 'Testing the revolution',
@@ -108,6 +108,18 @@ test('a blog can be deleted', async () => {
   expect(title).not.toContain(blogToDelete.title);
 });
 
+test('that a blog can be updated', async () => {
+  const blogsAtStart = await helper.blogsInDb();
+  const blogToUpdate = blogsAtStart[0];
+  const likes = { likes: 3 };
+  console.log(blogToUpdate);
+  await api.put(`/api/blogs/${blogToUpdate.id}`).send(likes).expect(200);
+  const blogsAtEnd = await helper.blogsInDb();
+  console.log(blogsAtEnd);
+  const updatedBlog = blogsAtEnd[0];
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+  expect(updatedBlog.likes).toBe(3);
+});
 //close database connection used by Mongoose
 afterAll(async () => {
   await mongoose.connection.close();
