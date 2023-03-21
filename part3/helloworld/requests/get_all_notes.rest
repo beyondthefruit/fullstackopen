@@ -6,6 +6,16 @@ POST http://localhost:3006/api/notes/
 content-Type: application/json
 
 {
+    "content": "Rest client is confused",
+    "important": true,
+    "userId": "6417f22c4dbd6537741434fb"
+}
+###
+
+POST http://localhost:3006/api/notes/
+content-Type: application/json
+
+{
     "content": "JSX is fun",
     "important": true
 }

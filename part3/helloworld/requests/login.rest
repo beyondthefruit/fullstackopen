@@ -1,0 +1,10 @@
+
+
+POST http://localhost:3006/api/login/
+content-Type: application/json
+
+{
+    "username": "kevlarino",
+    "password": "kevlarino",
+}
+
