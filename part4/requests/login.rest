@@ -19,14 +19,3 @@ content-Type: application/json
     "name": "Superuser",
     "password": "rootuser"
 }
-###
-
-
-# POST http://localhost:3006/api/notes/
-# content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY0MTdmMjJjNGRiZDY1Mzc3NDE0MzRmYiIsImlhdCI6MTY3OTQ1NDA5MX0._Al-mVAN5mw-hs-xFMs9OuTp6Lq1tkPzS7BaUEyAJeg
-
-# {
-#     "content": "Authorization isnt the funiest thing to do",
-#     "important": true
-# }
