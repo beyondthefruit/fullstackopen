@@ -11,6 +11,12 @@ usersRouter.post('/', async (request, response) => {
   if (username.length <= 3) {
     response.status(400).json({ error: 'min username size is 3 characters' });
   }
+  const uniqueUser = await User.findOne({ username });
+  if (uniqueUser) {
+    return response
+      .status(400)
+      .json({ error: 'This username have already been created' });
+  }
 
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
