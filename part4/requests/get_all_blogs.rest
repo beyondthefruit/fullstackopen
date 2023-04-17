@@ -1,0 +1,26 @@
+GET http://localhost:3003/api/blogs/
+
+###
+
+POST http://localhost:3003/api/blogs/
+content-Type: application/json
+
+{
+  "title": "Node",
+  "author": "Mark Zukenberg",
+  "url": "",
+  "likes": 0
+}
+
+###
+
+PUT http://localhost:3003/api/blogs/6417aa740267d13952260702
+content-Type: application/json
+
+{
+  "title": "React patterns",
+  "author": "Mark Galapopo",
+  "url": "https://reactpatterns.com/",
+  "likes": 12
+}
+   

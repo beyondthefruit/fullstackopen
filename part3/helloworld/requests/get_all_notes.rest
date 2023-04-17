@@ -6,6 +6,44 @@ POST http://localhost:3006/api/notes/
 content-Type: application/json
 
 {
-    "content": "JSX",
+    "content": "Rest client is confused",
+    "important": true,
+    "userId": "6417f22c4dbd6537741434fb"
+}
+###
+
+POST http://localhost:3006/api/notes/
+content-Type: application/json
+
+{
+    "content": "JSX is fun",
     "important": true
+}
+
+###
+DELETE http://localhost:3006/api/notes/63fe8738a656a32d9e944501
+content-Type: application/json
+
+###
+PUT http://localhost:3006/api/notes/63f6eff894b87a06e6148a23
+content-Type: application/json
+
+{
+    "content": "HTML is easier than CSS",
+    "important": true
+}
+
+
+###
+GET http://localhost:3006/api/users/
+
+
+###
+POST http://localhost:3006/api/users/
+content-Type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
 }
