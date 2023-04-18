@@ -1,12 +1,4 @@
 
-POST http://localhost:3003/api/login/
-content-Type: application/json
-
-{
-    "username": "root",
-    "password": "salainen"
-}
-###
 GET http://localhost:3003/api/users/
 
 
@@ -18,4 +10,28 @@ content-Type: application/json
     "username": "root",
     "name": "Superuser",
     "password": "rootuser"
+}
+###
+
+
+POST http://localhost:3003/api/login/
+content-Type: application/json
+
+{
+    "username": "root",
+    "password": "rootuser"
+}
+
+###
+
+
+POST http://localhost:3003/api/blogs/
+content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY0M2NjYWQxZmJlYTI5NzFjOTFjMjdlYyIsImlhdCI6MTY4MTc5Mzc1N30.0cFphQ4dTSp-nTGt7BSssyxNS-viLfJJp3Qe2gzBkDo
+
+{
+    "title": "Node my friend",
+  "author": "Marz kursenberg",
+  "url": "",
+  "likes": 1
 }
