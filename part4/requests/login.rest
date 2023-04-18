@@ -27,11 +27,11 @@ content-Type: application/json
 
 POST http://localhost:3003/api/blogs/
 content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY0M2NjYWQxZmJlYTI5NzFjOTFjMjdlYyIsImlhdCI6MTY4MTc5Mzc1N30.0cFphQ4dTSp-nTGt7BSssyxNS-viLfJJp3Qe2gzBkDo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY0M2NjYWQxZmJlYTI5NzFjOTFjMjdlYyIsImlhdCI6MTY4MTc5NTQ1M30.BI87OQ4LLMCieUMKCRnl-Y1Zt2buYY-Fxx7Ep3s_ov8
 
 {
-    "title": "Node my friend",
-  "author": "Marz kursenberg",
+    "title": "java is harder than python",
+  "author": "Kurz Markenberg",
   "url": "",
-  "likes": 1
+  "likes": 3
 }
