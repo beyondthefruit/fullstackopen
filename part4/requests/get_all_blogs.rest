@@ -30,8 +30,8 @@ POST http://localhost:3003/api/blogs/
 content-Type: application/json
 
 {
-  "title": "CSS forever",
-  "author": "Gigi Kiki",
+  "title": "CSS vs styled component",
+  "author": "Lilou nana",
   "url": "http",
   "likes": 2,
   "userId": "643cce2e6f8afc187dbe624a"
