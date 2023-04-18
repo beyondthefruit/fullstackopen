@@ -27,7 +27,7 @@ content-Type: application/json
 
 POST http://localhost:3003/api/blogs/
 content-Type: application/json
-Authorization: Bearer 
+# Authorization: Bearer 
 
 {
     "title": "java is harder than python",
