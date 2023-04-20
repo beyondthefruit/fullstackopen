@@ -39,8 +39,20 @@ usersRouter.get('/', async (request, response) => {
     title: 1,
     author: 1,
   });
-  response.json(users.map((user) => user.toJSON()));
-  // response.json(users);
+  // response.json(users.map((user) => user.toJSON()));
+  response.json(users);
+});
+usersRouter.get('/:id', async (request, response) => {
+  try {
+    const user = await User.findById(request.params.id);
+    if (user) {
+      response.json(user);
+    } else {
+      response.status(404).end();
+    }
+  } catch (exception) {
+    next(exception);
+  }
 });
 
 module.exports = usersRouter;

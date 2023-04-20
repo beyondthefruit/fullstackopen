@@ -18,14 +18,12 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  // const blog = new Blog(request.body);
-
-  // blog.save().then((result) => {
-  //   response.status(201).json(result);
   const body = request.body;
+
   // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
   const decodedToken = jwt.verify(request.token, process.env.SECRET);
   if (!decodedToken.id) {
+    // if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' });
   }
   const user = await User.findById(decodedToken.id);
@@ -45,30 +43,33 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-  try {
-    await Blog.findByIdAndRemove(request.params.id);
+  const { id } = request.params;
+
+  //check if token is valid
+  // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  console.log('this is decoded' + decodedToken);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' });
+  }
+
+  const user = await User.findById(decodedToken.id);
+  console.log(`this is user` + user);
+  // console.log(`this is user._id` + user._id);
+  console.log(`this is user.id` + user.id.toString());
+  // console.log(`this is req user.id` + request.user.id);
+  const blog = await Blog.findById(id);
+  console.log('blog id' + blog.user.toString());
+  if (blog.user.toString() === user.id.toString()) {
+    await Blog.findByIdAndRemove(id);
+
     response.status(204).end();
-  } catch (exception) {
-    next(exception);
+  } else {
+    response.status(401).json({ error: 'Only creator can delete this blog' });
   }
 });
 
-// blogsRouter.put('/:id', (request, response, next) => {
-//   const body = request.body;
-
-//   const blog = {
-//     title: body.title,
-//     author: body.author,
-//     url: body.url,
-//     likes: body.likes,
-//   };
-
-//   Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-//     .then((updateBlog) => {
-//       response.json(updateBlog);
-//     })
-//     .catch((error) => next(error));
-// });
 blogsRouter.put('/:id', async (request, response, next) => {
   const body = request.body;
 
@@ -81,6 +82,27 @@ blogsRouter.put('/:id', async (request, response, next) => {
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog);
     response.status(200).json(updatedBlog);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+blogsRouter.get('/:id', async (request, response, next) => {
+  // const { id } = request.params;
+  // const blog = await Blog.findById(id);
+
+  // if (blog) {
+  //   response.json(blog.toJSON());
+  // } else {
+  //   response.status(404).end();
+  // }
+  try {
+    const blogs = await Blog.findById(request.params.id);
+    if (blogs) {
+      response.json(blogs);
+    } else {
+      response.status(404).end();
+    }
   } catch (exception) {
     next(exception);
   }

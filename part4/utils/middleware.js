@@ -34,7 +34,7 @@ const tokenExtractor = (request, response, next) => {
   }
 
   next();
-  return request.token;
+  // return request.token;
 };
 
 module.exports = {

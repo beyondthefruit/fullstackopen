@@ -2,6 +2,12 @@
 
 # dependencies
 /node_modules
+# dependencies
+/requests
+# dependencies
+loginagain.rest
+
+
 
 # misc
 .DS_Store
