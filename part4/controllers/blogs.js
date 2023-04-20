@@ -18,18 +18,11 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  // const blog = new Blog(request.body);
-
-  // blog.save().then((result) => {
-  //   response.status(201).json(result);
+  const body = request.body;
 
   // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
-
-  const { body, token } = request.body;
-
-  // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
-  const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!token || !decodedToken.id) {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  if (!decodedToken.id) {
     // if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' });
   }
@@ -50,14 +43,14 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-  const { id, token } = request.params;
+  const { id } = request.params;
 
   //check if token is valid
   // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
 
-  const decodedToken = jwt.verify(token, process.env.SECRET);
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
   console.log('this is decoded' + decodedToken);
-  if (!token || !decodedToken.id) {
+  if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' });
   }
 
@@ -75,30 +68,8 @@ blogsRouter.delete('/:id', async (request, response, next) => {
   } else {
     response.status(401).json({ error: 'Only creator can delete this blog' });
   }
-  // try {
-  //   await Blog.findByIdAndRemove(request.params.id);
-  //   response.status(204).end();
-  // } catch (exception) {
-  //   next(exception);
-  // }
 });
 
-// blogsRouter.put('/:id', (request, response, next) => {
-//   const body = request.body;
-
-//   const blog = {
-//     title: body.title,
-//     author: body.author,
-//     url: body.url,
-//     likes: body.likes,
-//   };
-
-//   Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-//     .then((updateBlog) => {
-//       response.json(updateBlog);
-//     })
-//     .catch((error) => next(error));
-// });
 blogsRouter.put('/:id', async (request, response, next) => {
   const body = request.body;
 
