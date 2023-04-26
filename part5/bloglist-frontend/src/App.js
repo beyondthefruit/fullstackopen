@@ -15,6 +15,15 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
+  }, []);
+
   // const addBlog = (event)=>{
   //   event.preventDefault();
 
@@ -33,6 +42,8 @@ const App = () => {
         username,
         password,
       });
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
+      blogService.setToken(user.token);
       setUser(user);
       setUsername('');
       setPassword('');
@@ -44,6 +55,12 @@ const App = () => {
 
       // }, 5000);
     }
+  };
+
+  //loginOut
+  const loginOut = () => {
+    window.localStorage.removeItem('loggedBlogappUser');
+    setUser(null);
   };
 
   //generating login form
@@ -67,6 +84,11 @@ const App = () => {
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
+      {/* {user ? (
+        <button type='submit'>login</button>
+      ) : (
+        <button type='submit'>logout</button>
+      )} */}
       <button type='submit'>login</button>
     </form>
   );
@@ -82,7 +104,12 @@ const App = () => {
       {!user && loginForm()}
       {user && (
         <div>
-          <p>{user.name} logged in</p>
+          <p>
+            {user.name} logged in{' '}
+            <button type='submit' onClick={loginOut}>
+              logout
+            </button>
+          </p>
         </div>
       )}
       {/* user && means that we only display that when user */}
