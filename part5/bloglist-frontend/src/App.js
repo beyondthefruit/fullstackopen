@@ -2,10 +2,14 @@ import { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
+import NewBlogForm from './components/blogForm';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  // const [newBlog, setNewBlog] = useState('')
+  const [newBlogTitle, setNewBlogTitle] = useState('');
+  const [newBlogAuthor, setNewBlogAuthor] = useState('');
+  const [newBlogUrl, setNewBlogUrl] = useState('');
+  const [newBlogLikes, setNewBlogLikes] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -24,16 +28,24 @@ const App = () => {
     }
   }, []);
 
-  // const addBlog = (event)=>{
-  //   event.preventDefault();
+  const addBlog = (event) => {
+    event.preventDefault(); // necessary to avoid reloading the page
+    // console.log('button clicked', event.target);
 
-  //     const blogObject = {
-  //     title: newBlog,
-  //     author: body.author,
-  //     url: body.url,
-  //     likes: body.likes || 0,
-  //     }
-  // }
+    const blogObject = {
+      title: newBlogTitle,
+      author: newBlogAuthor,
+      url: newBlogUrl,
+      likes: newBlogLikes || 0,
+    };
+    blogService.create(blogObject).then((returnedNote) => {
+      setBlogs(blogs.concat(returnedNote));
+      setNewBlogTitle('');
+      setNewBlogAuthor('');
+      setNewBlogUrl('');
+      setNewBlogLikes('');
+    });
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -52,7 +64,6 @@ const App = () => {
       console.log('wrong credentials');
       // setTimeout(() => {
       //   setErrorMessage(null);
-
       // }, 5000);
     }
   };
@@ -84,18 +95,9 @@ const App = () => {
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      {/* {user ? (
-        <button type='submit'>login</button>
-      ) : (
-        <button type='submit'>logout</button>
-      )} */}
       <button type='submit'>login</button>
     </form>
   );
-
-  // const blogForm = () => (
-  //   <form onSubmit={add}
-  // )
 
   return (
     <div>
@@ -114,6 +116,18 @@ const App = () => {
       )}
       {/* user && means that we only display that when user */}
       {user && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
+      {/* {BlogForm()} */}
+      <NewBlogForm
+        newBlogTitle={newBlogTitle}
+        setNewBlogTitle={setNewBlogTitle}
+        newBlogAuthor={newBlogAuthor}
+        setNewBlogAuthor={setNewBlogAuthor}
+        newBlogLikes={newBlogLikes}
+        setNewBlogLikes={setNewBlogLikes}
+        newBlogUrl={newBlogUrl}
+        setNewBlogUrl={setNewBlogUrl}
+        addBlog={addBlog}
+      />
     </div>
   );
 };
