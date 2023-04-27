@@ -3,6 +3,9 @@ import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import NewBlogForm from './components/blogForm';
+import Notification from './components/notification';
+import Error from './components/error';
+import './index.css';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,6 +16,7 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
@@ -28,6 +32,13 @@ const App = () => {
     }
   }, []);
 
+  const timeOut = () => {
+    setTimeout(() => {
+      setSuccessMessage(null);
+      setErrorMessage(null);
+    }, 5000);
+  };
+
   const addBlog = (event) => {
     event.preventDefault(); // necessary to avoid reloading the page
     // console.log('button clicked', event.target);
@@ -40,6 +51,13 @@ const App = () => {
     };
     blogService.create(blogObject).then((returnedNote) => {
       setBlogs(blogs.concat(returnedNote));
+      setSuccessMessage(
+        `a new blog ${newBlogTitle} from ${newBlogAuthor} has been added`
+      );
+      timeOut();
+      // setTimeout(() => {
+      //   setSuccessMessage(null);
+      // }, 5000);
       setNewBlogTitle('');
       setNewBlogAuthor('');
       setNewBlogUrl('');
@@ -57,14 +75,15 @@ const App = () => {
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
       blogService.setToken(user.token);
       setUser(user);
+      setSuccessMessage(`${user.name} is logged in`);
+      timeOut();
+
       setUsername('');
       setPassword('');
     } catch (exception) {
-      // setErrorMessage('Wrong credentials');
-      console.log('wrong credentials');
-      // setTimeout(() => {
-      //   setErrorMessage(null);
-      // }, 5000);
+      setErrorMessage('Wrong username or passwords');
+      console.log('Wrong username or passwords');
+      timeOut();
     }
   };
 
@@ -72,6 +91,8 @@ const App = () => {
   const loginOut = () => {
     window.localStorage.removeItem('loggedBlogappUser');
     setUser(null);
+    setSuccessMessage(`You have logout`);
+    timeOut();
   };
 
   //generating login form
@@ -101,6 +122,8 @@ const App = () => {
 
   return (
     <div>
+      <Notification successMessage={successMessage} />
+      <Error errorMessage={errorMessage} />
       <h2>blogs</h2>
       {/* {user === null && loginForm()} */}
       {!user && loginForm()}
@@ -117,17 +140,19 @@ const App = () => {
       {/* user && means that we only display that when user */}
       {user && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
       {/* {BlogForm()} */}
-      <NewBlogForm
-        newBlogTitle={newBlogTitle}
-        setNewBlogTitle={setNewBlogTitle}
-        newBlogAuthor={newBlogAuthor}
-        setNewBlogAuthor={setNewBlogAuthor}
-        newBlogLikes={newBlogLikes}
-        setNewBlogLikes={setNewBlogLikes}
-        newBlogUrl={newBlogUrl}
-        setNewBlogUrl={setNewBlogUrl}
-        addBlog={addBlog}
-      />
+      {user && (
+        <NewBlogForm
+          newBlogTitle={newBlogTitle}
+          setNewBlogTitle={setNewBlogTitle}
+          newBlogAuthor={newBlogAuthor}
+          setNewBlogAuthor={setNewBlogAuthor}
+          newBlogLikes={newBlogLikes}
+          setNewBlogLikes={setNewBlogLikes}
+          newBlogUrl={newBlogUrl}
+          setNewBlogUrl={setNewBlogUrl}
+          addBlog={addBlog}
+        />
+      )}
     </div>
   );
 };
