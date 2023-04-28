@@ -18,6 +18,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loginVisible, setLoginVisible] = useState(false);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -140,18 +141,30 @@ const App = () => {
       {/* user && means that we only display that when user */}
       {user && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
       {/* {BlogForm()} */}
+      {/* means we can access our new blog creation only when user is true and loginVisible is true */}
       {user && (
-        <NewBlogForm
-          newBlogTitle={newBlogTitle}
-          setNewBlogTitle={setNewBlogTitle}
-          newBlogAuthor={newBlogAuthor}
-          setNewBlogAuthor={setNewBlogAuthor}
-          newBlogLikes={newBlogLikes}
-          setNewBlogLikes={setNewBlogLikes}
-          newBlogUrl={newBlogUrl}
-          setNewBlogUrl={setNewBlogUrl}
-          addBlog={addBlog}
-        />
+        <>
+          {loginVisible && (
+            <>
+              <NewBlogForm
+                newBlogTitle={newBlogTitle}
+                setNewBlogTitle={setNewBlogTitle}
+                newBlogAuthor={newBlogAuthor}
+                setNewBlogAuthor={setNewBlogAuthor}
+                newBlogLikes={newBlogLikes}
+                setNewBlogLikes={setNewBlogLikes}
+                newBlogUrl={newBlogUrl}
+                setNewBlogUrl={setNewBlogUrl}
+                addBlog={addBlog}
+                setLoginVisible={setLoginVisible}
+                loginVisible={loginVisible}
+              />
+            </>
+          )}
+          <button onClick={() => setLoginVisible(!loginVisible)}>
+            {loginVisible ? 'Cancel' : 'New form'}
+          </button>
+        </>
       )}
     </div>
   );
