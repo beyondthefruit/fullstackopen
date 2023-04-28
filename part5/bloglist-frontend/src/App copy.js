@@ -9,6 +9,10 @@ import './index.css';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
+  // const [newBlogTitle, setNewBlogTitle] = useState('');
+  // const [newBlogAuthor, setNewBlogAuthor] = useState('');
+  // const [newBlogUrl, setNewBlogUrl] = useState('');
+  // const [newBlogLikes, setNewBlogLikes] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -36,22 +40,29 @@ const App = () => {
     }, 5000);
   };
 
-  const addBlog = (blogObject) => {
-    // event.preventDefault(); // necessary to avoid reloading the page
+  const addBlog = (event) => {
+    event.preventDefault(); // necessary to avoid reloading the page
     // console.log('button clicked', event.target);
 
-    // const blogObject = {
-    //   title: newBlogTitle,
-    //   author: newBlogAuthor,
-    //   url: newBlogUrl,
-    //   likes: newBlogLikes || 0,
-    // };
+    const blogObject = {
+      title: newBlogTitle,
+      author: newBlogAuthor,
+      url: newBlogUrl,
+      likes: newBlogLikes || 0,
+    };
     blogService.create(blogObject).then((returnedNote) => {
       setBlogs(blogs.concat(returnedNote));
       setSuccessMessage(
-        `a new blog ${blogObject.title} from ${blogObject.author} has been added`
+        `a new blog ${newBlogTitle} from ${newBlogAuthor} has been added`
       );
       timeOut();
+      // setTimeout(() => {
+      //   setSuccessMessage(null);
+      // }, 5000);
+      setNewBlogTitle('');
+      setNewBlogAuthor('');
+      setNewBlogUrl('');
+      setNewBlogLikes('');
     });
   };
 
