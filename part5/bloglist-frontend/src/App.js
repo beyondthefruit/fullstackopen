@@ -143,15 +143,18 @@ const App = () => {
         </div>
       )}
       {/* user && means that we only display that when user */}
+      {/* to sort the blogs by likes we have to do it before the map method, if we just use sort it'll be by croissant order */}
       {user &&
-        blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            blogs={blogs}
-            updateLike={updateLike}
-          />
-        ))}
+        blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              blogs={blogs}
+              updateLike={updateLike}
+            />
+          ))}
       {/* {BlogForm()} */}
       {/* means we can access our new blog creation only when user is true and loginVisible is true */}
       {user && (
