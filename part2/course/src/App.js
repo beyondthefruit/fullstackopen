@@ -7,6 +7,9 @@ import './index.css';
 import Notification from './components/notif';
 import Footer from './components/footer';
 import loginService from './services/login';
+import Login from './components/login';
+import NoteForm from './components/noteForm';
+import Togglable from './components/togglable';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -16,6 +19,7 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  // const [loginVisible, setLoginVisible] = useState(false);
   // console.log(newNote);
 
   useEffect(() => {
@@ -35,14 +39,14 @@ const App = () => {
   }, []);
 
   //form mgt au secours
-  const addNote = (event) => {
-    event.preventDefault(); // necessary to avoid reloading the page
+  const addNote = (noteObject) => {
+    // event.preventDefault(); // necessary to avoid reloading the page
     // console.log('button clicked', event.target);
 
-    const noteObject = {
-      content: newNote,
-      important: Math.random() < 0.5,
-    };
+    // const noteObject = {
+    //   content: newNote,
+    //   important: Math.random() < 0.5,
+    // };
     // send to server method
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
@@ -93,9 +97,10 @@ const App = () => {
         username,
         password,
       });
+      noteService.setToken(user.token);
       //save info to local storage
       window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user));
-      noteService.setToken(user.token);
+
       setUser(user);
       setUsername('');
       setPassword('');
@@ -106,7 +111,7 @@ const App = () => {
       }, 5000);
     }
   };
-
+  //Problems come from my login component
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -131,24 +136,63 @@ const App = () => {
     </form>
   );
 
-  const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input value={newNote} onChange={handleNoteChange} />
-      <button type='submit'>save</button>
-    </form>
-  );
+  // const noteForm = () => (
+  //   <form onSubmit={addNote}>
+  //     <input value={newNote} onChange={handleNoteChange} />
+  //     <button type='submit'>save</button>
+  //   </form>
+  // );
+  const loginOut = () => {
+    window.localStorage.removeItem('loggedNoteappUser');
+    setUser(null);
+  };
 
   return (
     <div>
       <h1>Notes</h1>
       <Notification errorMessage={errorMessage} />
-      {!user && loginForm()}
+      {/* {loginForm()} */}
+      {/* {!user && loginForm()} */}
+      {/* <button onClick={() => setLoginVisible(!loginVisible)}>log in</button>
+      {loginVisible && (
+        <Login
+          hangleLogin={handleLogin}
+          username={username}
+          password={password}
+          setUsername={setUsername}
+          setPassword={setPassword}
+        />
+      )} */}
+      {!user && (
+        <Togglable buttonLabel='log in'>
+          <Login
+            hangleLogin={handleLogin}
+            username={username}
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
+          />
+        </Togglable>
+      )}
       {user && (
-        <div>
-          <p>{user.name} logged in</p>
-          {noteForm()}
-        </div>
-        //Means that only once ab user is logged, we can add a note
+        <>
+          <div>
+            <p>{user.name} logged in</p>
+            {/* {noteForm()} */}
+            {/* <NoteForm /> */}
+            <Togglable buttonLabel='new note'>
+              <NoteForm
+                // onSubmit={addNote}
+                // value={newNote}
+                handleChange={handleNoteChange}
+                createNote={addNote}
+              />
+            </Togglable>
+          </div>
+          <button type='submit' onClick={loginOut}>
+            logout
+          </button>
+        </>
       )}
 
       <div>
@@ -160,17 +204,7 @@ const App = () => {
           show {showAll ? 'important' : 'all'}
         </button>
       </div>
-      {/* <ul>
-        <ul>
-          {notesToShow.map((note) => (
-            <Note
-              key={note.id}
-              note={note}
-              toggleImportance={() => toggleImportanceOf(note.id)}
-            />
-          ))}
-        </ul>
-      </ul> */}
+
       {/* 
       <Note toggleImportanceOf={toggleImportanceOf} notesToShow={notesToShow} />
       <button onClick={() => setShowAll(!showAll)}>
