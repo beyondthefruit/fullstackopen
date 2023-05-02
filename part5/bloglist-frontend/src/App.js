@@ -46,13 +46,28 @@ const App = () => {
     //   url: newBlogUrl,
     //   likes: newBlogLikes || 0,
     // };
-    blogService.create(blogObject).then((returnedNote) => {
-      setBlogs(blogs.concat(returnedNote));
+    blogService.create(blogObject).then((returnedBlog) => {
+      setBlogs(blogs.concat(returnedBlog));
       setSuccessMessage(
         `a new blog ${blogObject.title} from ${blogObject.author} has been added`
       );
       timeOut();
     });
+  };
+
+  const updateLike = async (id) => {
+    try {
+      const blog = blogs.find((b) => b.id === id);
+
+      const changedBlog = { ...blog, likes: blog.likes + 1 };
+
+      await blogService.update(id, changedBlog);
+      setBlogs(blogs.map((blog) => (blog.id !== id ? blog : changedBlog)));
+    } catch (err) {
+      setErrorMessage('Max Likes');
+      console.log('Max Likes');
+      timeOut();
+    }
   };
 
   const handleLogin = async (event) => {
@@ -128,7 +143,15 @@ const App = () => {
         </div>
       )}
       {/* user && means that we only display that when user */}
-      {user && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
+      {user &&
+        blogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            blogs={blogs}
+            updateLike={updateLike}
+          />
+        ))}
       {/* {BlogForm()} */}
       {/* means we can access our new blog creation only when user is true and loginVisible is true */}
       {user && (
@@ -139,6 +162,7 @@ const App = () => {
                 addBlog={addBlog}
                 setLoginVisible={setLoginVisible}
                 loginVisible={loginVisible}
+                user={user}
               />
             </>
           )}

@@ -1,18 +1,21 @@
 import { useState } from 'react';
 
-const NewBlogForm = ({ addBlog, setLoginVisible, loginVisible }) => {
+const NewBlogForm = ({ addBlog, setLoginVisible, loginVisible, user }) => {
   const [newBlogTitle, setNewBlogTitle] = useState('');
   const [newBlogAuthor, setNewBlogAuthor] = useState('');
   const [newBlogUrl, setNewBlogUrl] = useState('');
   const [newBlogLikes, setNewBlogLikes] = useState('');
+  // const [newUser, setNewUser] = useState('');
 
   const addBlogEvent = (event) => {
     event.preventDefault();
+
     addBlog({
       title: newBlogTitle,
       author: newBlogAuthor,
       url: newBlogUrl,
       likes: newBlogLikes || 0,
+      // user: newUser,
     });
     setNewBlogTitle('');
     setNewBlogAuthor('');
@@ -32,6 +35,9 @@ const NewBlogForm = ({ addBlog, setLoginVisible, loginVisible }) => {
   const handleLikesChange = (event) => {
     setNewBlogLikes(event.target.value);
   };
+  // const handleUserchange = () => {
+  //   setNewUser(user);
+  // };
 
   // have to use a setTimeOut to close the form or else it was closing the form before submiting
   const closeForm = () => {
