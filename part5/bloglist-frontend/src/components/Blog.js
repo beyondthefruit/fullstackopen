@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-const Blog = ({ blog, blogs, updateLike }) => {
+const Blog = ({ blog, blogs, updateLike, deleteBlogPost, user }) => {
   const [blogDetail, setBlogDetail] = useState(null);
   const [userPoster, setUserPoster] = useState('root');
-  const { title, author, likes, url, user, id } = blog;
+  const { title, author, likes, url, id } = blog;
 
   // console.log(blogs);
   // // console.log(blogs.user);
@@ -86,12 +86,18 @@ const Blog = ({ blog, blogs, updateLike }) => {
           <p>author: {author}</p>
           <p>link: {url}</p>
           <p>
-            likes: {likes} <button onClick={() => updateLike(id)}>Like</button>
+            likes: {likes}{' '}
+            <button onClick={() => updateLike(id)}>Like it</button>
           </p>
           <p>
             user:
-            {blog.user?.username || user}
+            {blog.user?.username || blog.user}
           </p>
+          {console.log(user)}
+          {/* means that we only display remove when user is also the creator */}
+          {user.username === blog.user?.username && (
+            <button onClick={() => deleteBlogPost(id, title)}>Remove</button>
+          )}
         </div>
       )}
     </div>

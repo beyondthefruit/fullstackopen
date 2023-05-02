@@ -36,7 +36,7 @@ const App = () => {
     }, 5000);
   };
 
-  const addBlog = (blogObject) => {
+  const addBlog = async (blogObject) => {
     // event.preventDefault(); // necessary to avoid reloading the page
     // console.log('button clicked', event.target);
 
@@ -46,7 +46,7 @@ const App = () => {
     //   url: newBlogUrl,
     //   likes: newBlogLikes || 0,
     // };
-    blogService.create(blogObject).then((returnedBlog) => {
+    await blogService.create(blogObject).then((returnedBlog) => {
       setBlogs(blogs.concat(returnedBlog));
       setSuccessMessage(
         `a new blog ${blogObject.title} from ${blogObject.author} has been added`
@@ -66,6 +66,25 @@ const App = () => {
     } catch (err) {
       setErrorMessage('Max Likes');
       console.log('Max Likes');
+      timeOut();
+    }
+  };
+
+  const deleteBlogPost = async (id, blogTitle) => {
+    try {
+      // const blog = blogs.find((b) => b.id === id);
+      const windowDelete = window.confirm(
+        `Are you sure you want to delete ${blogTitle}`
+      );
+      if (windowDelete) {
+        await blogService.deleteBlog(id);
+        const filteredBlog = blogs.filter((b) => b.id !== id);
+        //mean we filter blogs with different id
+        setBlogs(filteredBlog);
+      }
+    } catch (err) {
+      setErrorMessage('You cannot delete this blog');
+      console.log('You cannot delete this blog');
       timeOut();
     }
   };
@@ -153,6 +172,8 @@ const App = () => {
               blog={blog}
               blogs={blogs}
               updateLike={updateLike}
+              deleteBlogPost={deleteBlogPost}
+              user={user}
             />
           ))}
       {/* {BlogForm()} */}
