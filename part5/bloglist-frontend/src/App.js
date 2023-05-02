@@ -46,13 +46,20 @@ const App = () => {
     //   url: newBlogUrl,
     //   likes: newBlogLikes || 0,
     // };
-    await blogService.create(blogObject).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog));
+    try {
+      await blogService.create(blogObject);
+      // this fixed the user not displaying without reloading wouhou)
+      const updatedBlogs = await blogService.getAll();
+      setBlogs(updatedBlogs);
       setSuccessMessage(
         `a new blog ${blogObject.title} from ${blogObject.author} has been added`
       );
       timeOut();
-    });
+    } catch (err) {
+      setErrorMessage('problems creating the blog');
+      console.log('problems creating the blog');
+      timeOut();
+    }
   };
 
   const updateLike = async (id) => {
