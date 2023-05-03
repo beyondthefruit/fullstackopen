@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const Blog = ({ blog, blogs, updateLike, deleteBlogPost, user }) => {
   const [blogDetail, setBlogDetail] = useState(null);
-  const [userPoster, setUserPoster] = useState('root');
+  // const [userPoster, setUserPoster] = useState('root');
   const { title, author, likes, url, id } = blog;
 
   // console.log(blogs);

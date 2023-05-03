@@ -5,6 +5,7 @@ import loginService from './services/login';
 import NewBlogForm from './components/blogForm';
 import Notification from './components/notification';
 import Error from './components/error';
+import Login from './components/login';
 import './index.css';
 
 const App = () => {
@@ -37,15 +38,6 @@ const App = () => {
   };
 
   const addBlog = async (blogObject) => {
-    // event.preventDefault(); // necessary to avoid reloading the page
-    // console.log('button clicked', event.target);
-
-    // const blogObject = {
-    //   title: newBlogTitle,
-    //   author: newBlogAuthor,
-    //   url: newBlogUrl,
-    //   likes: newBlogLikes || 0,
-    // };
     try {
       await blogService.create(blogObject);
       // this fixed the user not displaying without reloading wouhou)
@@ -122,42 +114,26 @@ const App = () => {
   const loginOut = () => {
     window.localStorage.removeItem('loggedBlogappUser');
     setUser(null);
-    setSuccessMessage(`You have logout`);
+    setSuccessMessage('You have logout');
     timeOut();
   };
-
-  //generating login form
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type='text'
-          value={username}
-          name='Username'
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type='password'
-          value={password}
-          name='Password'
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type='submit'>login</button>
-    </form>
-  );
 
   return (
     <div>
       <Notification successMessage={successMessage} />
       <Error errorMessage={errorMessage} />
       <h2>blogs</h2>
-      {/* {user === null && loginForm()} */}
-      {!user && loginForm()}
+
+      {/* {!user && loginForm()} */}
+      {!user && (
+        <Login
+          handleSubmit={handleLogin}
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+        />
+      )}
       {user && (
         <div>
           <p>

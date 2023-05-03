@@ -9,10 +9,10 @@ import './index.css';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  // const [newBlogTitle, setNewBlogTitle] = useState('');
-  // const [newBlogAuthor, setNewBlogAuthor] = useState('');
-  // const [newBlogUrl, setNewBlogUrl] = useState('');
-  // const [newBlogLikes, setNewBlogLikes] = useState('');
+  const [newBlogTitle, setNewBlogTitle] = useState('');
+  const [newBlogAuthor, setNewBlogAuthor] = useState('');
+  const [newBlogUrl, setNewBlogUrl] = useState('');
+  const [newBlogLikes, setNewBlogLikes] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -92,7 +92,7 @@ const App = () => {
   const loginOut = () => {
     window.localStorage.removeItem('loggedBlogappUser');
     setUser(null);
-    setSuccessMessage(`You have logout`);
+    setSuccessMessage('You have logout');
     timeOut();
   };
 
@@ -147,6 +147,14 @@ const App = () => {
           {loginVisible && (
             <>
               <NewBlogForm
+                newBlogTitle={newBlogTitle}
+                setNewBlogTitle={setNewBlogTitle}
+                newBlogAuthor={newBlogAuthor}
+                setNewBlogAuthor={setNewBlogAuthor}
+                newBlogLikes={newBlogLikes}
+                setNewBlogLikes={setNewBlogLikes}
+                newBlogUrl={newBlogUrl}
+                setNewBlogUrl={setNewBlogUrl}
                 addBlog={addBlog}
                 setLoginVisible={setLoginVisible}
                 loginVisible={loginVisible}
