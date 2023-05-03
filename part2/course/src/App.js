@@ -1,8 +1,8 @@
 import Note from './components/note';
 import noteService from './services/notes';
-import notesData from './data';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+// import notesData from './data';
+import { useState, useEffect, useRef } from 'react';
+// import axios from 'axios';
 import './index.css';
 import Notification from './components/notif';
 import Footer from './components/footer';
@@ -19,6 +19,8 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+
+  const noteFormRef = useRef();
   // const [loginVisible, setLoginVisible] = useState(false);
   // console.log(newNote);
 
@@ -48,6 +50,8 @@ const App = () => {
     //   important: Math.random() < 0.5,
     // };
     // send to server method
+    // form ref Help with hiding the form after creation
+    noteFormRef.current.toggleVisibility();
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
       setNewNote('');
@@ -112,29 +116,29 @@ const App = () => {
     }
   };
   //Problems come from my login component
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type='text'
-          value={username}
-          name='Username'
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type='password'
-          value={password}
-          name='Password'
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type='submit'>login</button>
-    </form>
-  );
+  // const loginForm = () => (
+  //   <form onSubmit={handleLogin}>
+  //     <div>
+  //       username
+  //       <input
+  //         type='text'
+  //         value={username}
+  //         name='Username'
+  //         onChange={({ target }) => setUsername(target.value)}
+  //       />
+  //     </div>
+  //     <div>
+  //       password
+  //       <input
+  //         type='password'
+  //         value={password}
+  //         name='Password'
+  //         onChange={({ target }) => setPassword(target.value)}
+  //       />
+  //     </div>
+  //     <button type='submit'>login</button>
+  //   </form>
+  // );
 
   // const noteForm = () => (
   //   <form onSubmit={addNote}>
@@ -166,21 +170,22 @@ const App = () => {
       {!user && (
         <Togglable buttonLabel='log in'>
           <Login
-            hangleLogin={handleLogin}
             username={username}
             password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
           />
         </Togglable>
       )}
+      {user && <div>Hiiiiiii</div>}
       {user && (
         <>
           <div>
             <p>{user.name} logged in</p>
             {/* {noteForm()} */}
             {/* <NoteForm /> */}
-            <Togglable buttonLabel='new note'>
+            <Togglable buttonLabel='new note' ref={noteFormRef}>
               <NoteForm
                 // onSubmit={addNote}
                 // value={newNote}
