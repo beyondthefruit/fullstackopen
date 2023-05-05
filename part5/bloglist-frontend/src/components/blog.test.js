@@ -40,4 +40,26 @@ describe('Blog component tests', () => {
     // regex to check a number
     expect(screen.getByText(/2/i)).toBeInTheDocument();
   });
+  it('should received props twice if like button is clicked twice', async () => {
+    const mockHandler = jest.fn();
+    const mockLike = jest.fn();
+    render(
+      <Blog
+        blog={blogTest}
+        updateLike={mockLike}
+        setBlogDetail={mockHandler}
+        user={user}
+      />
+    );
+    // first we have to click on the view btn
+    const button = screen.getByRole('button', { name: /view/i });
+    expect(button).toBeInTheDocument();
+    await userEvent.click(button);
+    // then we have to click on the like btn
+    const buttonLike = screen.getByRole('button', { name: /like it/i });
+    expect(buttonLike).toBeInTheDocument();
+    await userEvent.click(buttonLike);
+    await userEvent.click(buttonLike);
+    expect(mockLike.mock.calls).toHaveLength(2);
+  });
 });
