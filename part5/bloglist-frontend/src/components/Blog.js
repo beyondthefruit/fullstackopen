@@ -90,7 +90,7 @@ const Blog = ({ blog, blogs, updateLike, deleteBlogPost, user }) => {
       {blogDetail && (
         <div style={blogExtraStyle}>
           {/* <p>author: {author}</p> */}
-          <p>link: {url}</p>
+          <p>link {url}</p>
           <p>
             likes: {likes}{' '}
             <button onClick={() => updateLike(id)}>Like it</button>

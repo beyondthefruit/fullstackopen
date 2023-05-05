@@ -1,15 +1,18 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { prettyDOM, fireEvent } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import Blog from './Blog';
 
-describe('Blog component', () => {
+describe('Blog component tests', () => {
   const blogTest = {
     title: 'Best blog ever',
     author: 'Luc ferry',
     url: 'https:luckyblog.com',
     likes: 2,
+  };
+  const user = {
+    username: 'leo',
   };
 
   it('should render the blog title', () => {
@@ -24,5 +27,17 @@ describe('Blog component', () => {
     expect(screen.queryByText('https:luckyblog.com')).not.toBeInTheDocument();
     expect(screen.queryByText('likes')).not.toBeInTheDocument();
     // expect(blogBloup).not.toHaveStyle('blogStyle');
+  });
+
+  it('should display the blog url and likes after clicking on button', async () => {
+    const mockHandler = jest.fn();
+    render(<Blog blog={blogTest} setBlogDetail={mockHandler} user={user} />);
+    const button = screen.getByRole('button', { name: /view/i });
+    expect(button).toBeInTheDocument();
+    await userEvent.click(button);
+
+    expect(screen.getByText(/https:luckyblog.com/i)).toBeInTheDocument();
+    // regex to check a number
+    expect(screen.getByText(/2/i)).toBeInTheDocument();
   });
 });
