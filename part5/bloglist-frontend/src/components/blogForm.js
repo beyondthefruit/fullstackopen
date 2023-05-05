@@ -49,19 +49,35 @@ const NewBlogForm = ({ addBlog, setLoginVisible, loginVisible, user }) => {
     <form onSubmit={addBlogEvent}>
       <div>
         Title:
-        <input value={newBlogTitle} onChange={handleTitleChange} />
+        <input
+          value={newBlogTitle}
+          onChange={handleTitleChange}
+          className='inputTitle'
+        />
       </div>
       <div>
         Author:
-        <input value={newBlogAuthor} onChange={handleAuthorChange} />
+        <input
+          value={newBlogAuthor}
+          onChange={handleAuthorChange}
+          className='inputAuthor'
+        />
       </div>
       <div>
         Url:
-        <input value={newBlogUrl} onChange={handleUrlChange} />
+        <input
+          value={newBlogUrl}
+          onChange={handleUrlChange}
+          className='inputUrl'
+        />
       </div>
       <div>
         Likes:
-        <input value={newBlogLikes} onChange={handleLikesChange} />
+        <input
+          value={newBlogLikes}
+          onChange={handleLikesChange}
+          className='inputLikes'
+        />
       </div>
       <button onClick={() => closeForm()} type='submit'>
         create
