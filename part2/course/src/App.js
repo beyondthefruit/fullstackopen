@@ -13,13 +13,14 @@ import Togglable from './components/togglable';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState('a new note..');
+  const [, setNewNote] = useState('a new note..');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
 
+  // console.log(newNote);
   const noteFormRef = useRef();
   // const [loginVisible, setLoginVisible] = useState(false);
   // console.log(newNote);
@@ -73,6 +74,7 @@ const App = () => {
         setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
       })
       .catch((error) => {
+        console.log(error);
         setErrorMessage(
           `Note '${note.content}' was already removed from server`
         );
@@ -210,7 +212,7 @@ const App = () => {
         </button>
       </div>
 
-      {/* 
+      {/*
       <Note toggleImportanceOf={toggleImportanceOf} notesToShow={notesToShow} />
       <button onClick={() => setShowAll(!showAll)}>
         show {showAll ? 'important' : 'all'}

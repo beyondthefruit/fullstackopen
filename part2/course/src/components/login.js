@@ -8,7 +8,7 @@ const Login = ({
 }) => {
   return (
     <div>
-      <h2>Login</h2>
+      <h2>login</h2>
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -23,7 +23,7 @@ const Login = ({
             onChange={handlePasswordChange}
           />
         </div>
-        <button type='submit'>login</button>
+        <button type='submit'>ligins</button>
       </form>
     </div>
   );
