@@ -21,6 +21,35 @@ describe('Blog app', function () {
       cy.get('#login-button').click();
     });
   });
+
+  describe('when logged in', function () {
+    beforeEach(function () {
+      cy.login({ username: 'root', password: 'rootuser' });
+    });
+    it('a blog can be created', function () {
+      cy.contains('New form').click();
+      cy.get('.inputTitle').type('cypress is best for e2e');
+      cy.get('.inputAuthor').type('Bernard');
+      cy.get('.inputUrl').type('http');
+      cy.get('.inputLikes').type('3');
+      cy.contains('create').click();
+      cy.contains('cypress is best for e2e');
+    });
+    // describe('and several notes exist', function () {
+    //   beforeEach(function () {
+    //     cy.createNote({ content: 'first note', important: false });
+    //     cy.createNote({ content: 'second note', important: false });
+    //     cy.createNote({ content: 'third note', important: false });
+    //   });
+
+    // it('one of those can be made important', function () {
+    //   cy.contains('second note').parent().find('button').as('theButton');
+    //   cy.get('@theButton').click();
+    //   cy.get('@theButton').should('contain', 'make not important');
+    // });
+    // });
+  });
+
   it('login fails with wrong password', function () {
     cy.get('#username').type('root');
     cy.get('#password').type('wrong');

@@ -79,7 +79,7 @@ const NewBlogForm = ({ addBlog, setLoginVisible, loginVisible, user }) => {
           className='inputLikes'
         />
       </div>
-      <button onClick={() => closeForm()} type='submit'>
+      <button id='blog-submit' onClick={() => closeForm()} type='submit'>
         create
       </button>
     </form>
