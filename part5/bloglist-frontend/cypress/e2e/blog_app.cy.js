@@ -65,6 +65,41 @@ describe('Blog app', function () {
       });
     });
   });
+
+  describe('logged a user', function () {
+    beforeEach(function () {
+      cy.login({ username: 'root', password: 'rootuser' });
+    });
+    describe('and a few blogs exist', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'I have only 2 likes',
+          author: 'Likeless',
+          url: 'http',
+          likes: 2,
+        });
+        cy.createBlog({
+          title: 'I have 10 likes',
+          author: 'Likemore',
+          url: 'http',
+          likes: 10,
+        });
+        cy.createBlog({
+          title: 'I have 5 likes',
+          author: 'Likeaverage',
+          url: 'http',
+          likes: 5,
+        });
+      });
+      it('blogs are ordered based on likes', function () {
+        cy.get('.bloup').eq(0).should('contain', 'I have 10 likes');
+        cy.get('.bloup').eq(1).should('contain', 'I have 5 likes');
+        cy.get('.bloup').eq(2).should('contain', 'I have only 2 likes');
+        // cy.contains('I have 10 likes');
+      });
+    });
+  });
+
   describe('when logged', function () {
     beforeEach(function () {
       cy.login({ username: 'root', password: 'rootuser' });
