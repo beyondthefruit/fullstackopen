@@ -35,19 +35,21 @@ describe('Blog app', function () {
       cy.contains('create').click();
       cy.contains('cypress is best for e2e');
     });
-    // describe('and several notes exist', function () {
-    //   beforeEach(function () {
-    //     cy.createNote({ content: 'first note', important: false });
-    //     cy.createNote({ content: 'second note', important: false });
-    //     cy.createNote({ content: 'third note', important: false });
-    //   });
-
-    // it('one of those can be made important', function () {
-    //   cy.contains('second note').parent().find('button').as('theButton');
-    //   cy.get('@theButton').click();
-    //   cy.get('@theButton').should('contain', 'make not important');
-    // });
-    // });
+    describe('and several blogs exist', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'a blog',
+          author: 'michou',
+          url: 'http',
+          likes: 2,
+        });
+      });
+      it('an user can like a blog', function () {
+        cy.contains('view').click();
+        cy.contains('Like it').click();
+        cy.contains(3);
+      });
+    });
   });
 
   it('login fails with wrong password', function () {
