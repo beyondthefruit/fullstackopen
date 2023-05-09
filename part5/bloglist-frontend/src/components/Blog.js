@@ -62,6 +62,10 @@ const Blog = ({ blog, blogs, updateLike, deleteBlogPost, user }) => {
     marginBottom: '0.5rem',
   };
 
+  const introStyle = {
+    padding: '0 5px',
+  };
+
   const blogBtnStyle = {
     backgroundColor: 'grey',
     color: 'white',
@@ -74,17 +78,19 @@ const Blog = ({ blog, blogs, updateLike, deleteBlogPost, user }) => {
     marginBottom: '0.5rem',
   };
   return (
-    <div>
+    <div className='bloup'>
       <div style={blogStyle}>
-        {title}
+        <span style={introStyle}>{title}</span>
+        <span style={introStyle}>{author}</span>
+
         <button style={blogBtnStyle} onClick={() => setBlogDetail(!blogDetail)}>
           {!blogDetail ? 'view' : 'hide'}
         </button>
       </div>
       {blogDetail && (
         <div style={blogExtraStyle}>
-          <p>author: {author}</p>
-          <p>link: {url}</p>
+          {/* <p>author: {author}</p> */}
+          <p>link {url}</p>
           <p>
             likes: {likes}{' '}
             <button onClick={() => updateLike(id)}>Like it</button>
