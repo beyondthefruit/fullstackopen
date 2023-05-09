@@ -7,6 +7,12 @@ describe('Blog app', function () {
       password: 'rootuser',
     };
     cy.request('POST', 'http://localhost:3003/api/users/', user);
+    const usermasked = {
+      name: 'Secret',
+      username: 'bulbizar',
+      password: 'pass',
+    };
+    cy.request('POST', 'http://localhost:3003/api/users/', usermasked);
     cy.visit('http://localhost:3000');
   });
 
@@ -35,7 +41,7 @@ describe('Blog app', function () {
       cy.contains('create').click();
       cy.contains('cypress is best for e2e');
     });
-    describe('and several blogs exist', function () {
+    describe('and a blogs exist', function () {
       beforeEach(function () {
         cy.createBlog({
           title: 'a blog',
@@ -49,12 +55,35 @@ describe('Blog app', function () {
         cy.contains('Like it').click();
         cy.contains(3);
       });
+
       it('an user can delete a blog', function () {
         cy.contains('view').click();
         cy.contains('Remove').click();
         // cy.contains('Like it').click();
         // cy.contains(3);
         cy.get('html').should('not.contain', 'a blog');
+      });
+    });
+  });
+  describe('when logged', function () {
+    beforeEach(function () {
+      cy.login({ username: 'root', password: 'rootuser' });
+    });
+    describe('and a blogs exist', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'a blog test',
+          author: 'bilou bila',
+          url: 'http',
+          likes: 2,
+        });
+      });
+
+      it('another user cannott delete a blog and do not see Remove button', function () {
+        cy.contains('logout').click();
+        cy.login({ username: 'bulbizar', password: 'pass' });
+        cy.contains('view').click();
+        cy.contains('Remove').should('not.exist');
       });
     });
   });
