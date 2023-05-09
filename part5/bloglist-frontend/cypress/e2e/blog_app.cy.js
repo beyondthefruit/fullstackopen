@@ -49,6 +49,13 @@ describe('Blog app', function () {
         cy.contains('Like it').click();
         cy.contains(3);
       });
+      it('an user can delete a blog', function () {
+        cy.contains('view').click();
+        cy.contains('Remove').click();
+        // cy.contains('Like it').click();
+        // cy.contains(3);
+        cy.get('html').should('not.contain', 'a blog');
+      });
     });
   });
 
@@ -60,12 +67,5 @@ describe('Blog app', function () {
     //   cy.contains('wrong credentials');
     //or
     cy.get('.error').should('contain', 'Wrong username or passwords');
-    // or
-    // cy.get('.error')
-    //   .should('contain', 'wrong credentials')
-    //   .and('have.css', 'color', 'rgb(255, 0, 0)')
-    //   .and('have.css', 'border-style', 'solid');
-
-    // cy.get('html').should('not.contain', 'Matti Luukkainen logged in');
   });
 });
